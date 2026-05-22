@@ -1,391 +1,357 @@
-<a href="/quran" class="btn btn-outline-secondary mb-4">
-    <i class="bi bi-arrow-left"></i> Back to Surahs
-</a>
-
-<!-- Settings Sidebar Panel -->
-<div id="settingsPanel" class="settings-panel">
-    <div class="settings-header">
-        <h5 class="mb-0"><i class="bi bi-sliders"></i> Display Settings</h5>
-        <button class="btn-close settings-close" id="settingsPanelClose" aria-label="Close settings"></button>
-    </div>
-    
-    <div class="settings-body">
-        <!-- Quran Font Selection -->
-        <div class="settings-section">
-            <label class="settings-label"><i class="bi bi-type"></i> Quran Font</label>
-            <div class="font-options">
-                <div class="form-check">
-                    <input class="form-check-input quran-font-radio" type="radio" name="quranFont" id="fontTraditional" value="traditional" checked>
-                    <label class="form-check-label" for="fontTraditional">
-                        <span class="font-preview" style="font-family: 'Traditional Arabic', serif;">ق</span>
-                        Traditional
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input quran-font-radio" type="radio" name="quranFont" id="fontUthmani" value="uthmani">
-                    <label class="form-check-label" for="fontUthmani">
-                        <span class="font-preview" style="font-family: 'Scheherazade New', serif;">ق</span>
-                        Uthmani
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input quran-font-radio" type="radio" name="quranFont" id="fontIndoPak" value="indopak">
-                    <label class="form-check-label" for="fontIndoPak">
-                        <span class="font-preview" style="font-family: 'IndoPak', serif;">ق</span>
-                        IndoPak
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input quran-font-radio" type="radio" name="quranFont" id="fontTajweed" value="tajweed">
-                    <label class="form-check-label" for="fontTajweed">
-                        <span class="font-preview" style="font-family: 'Tajweed', serif;">ق</span>
-                        Tajweed
-                    </label>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Arabic Text Size -->
-        <div class="settings-section">
-            <label class="settings-label"><i class="bi bi-aspect-ratio"></i> Arabic Text Size</label>
-            <div class="size-control">
-                <button class="btn-size" id="decreaseSize" title="Decrease size">
-                    <i class="bi bi-dash-circle"></i>
-                </button>
-                <span class="size-display" id="sizeDisplay">100%</span>
-                <button class="btn-size" id="increaseSize" title="Increase size">
-                    <i class="bi bi-plus-circle"></i>
-                </button>
-            </div>
-            <div class="size-preset-buttons">
-                <button class="size-preset" data-size="80">Small</button>
-                <button class="size-preset active" data-size="100">Normal</button>
-                <button class="size-preset" data-size="120">Large</button>
-                <button class="size-preset" data-size="150">Huge</button>
-            </div>
-        </div>
-        
-        <!-- Translation Display -->
-        <div class="settings-section">
-            <label class="settings-label"><i class="bi bi-eye"></i> Translation Display</label>
-            <div class="translation-display-options">
-                <div class="form-check">
-                    <input class="form-check-input translation-display-radio" type="radio" name="translationDisplay" id="displayBoth" value="both" checked>
-                    <label class="form-check-label" for="displayBoth">Show Both</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input translation-display-radio" type="radio" name="translationDisplay" id="displayBengali" value="bengali">
-                    <label class="form-check-label" for="displayBengali">Bengali Only</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input translation-display-radio" type="radio" name="translationDisplay" id="displayEnglish" value="english">
-                    <label class="form-check-label" for="displayEnglish">English Only</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input translation-display-radio" type="radio" name="translationDisplay" id="displayArabicOnly" value="arabic">
-                    <label class="form-check-label" for="displayArabicOnly">Arabic Only</label>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Translation Selection (Moved from main card) -->
-        <div class="settings-section">
-            <label class="settings-label"><i class="bi bi-translate"></i> Select Translations</label>
-            <div class="translation-select-options">
-                <div class="translation-language-group">
-                    <h6 class="mb-2 small fw-bold text-success">বাংলা অনুবাদ</h6>
-                    <% config.translationsByLanguage.bangla.forEach((t) => { %>
-                    <div class="form-check form-check-sm">
-                        <input class="form-check-input translation-checkbox" type="checkbox" 
-                               id="settings_bangla<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>" 
-                               data-translation="<%= t.id %>" 
-                               data-order="<%= t.order %>"
-                               <%= t.isDefault ? 'checked' : '' %>>
-                        <label class="form-check-label small" for="settings_bangla<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>"><%= t.label %></label>
-                    </div>
-                    <% }) %>
-                </div>
-                <div class="translation-language-group mt-2">
-                    <h6 class="mb-2 small fw-bold text-primary">English Translation</h6>
-                    <% config.translationsByLanguage.english.forEach((t) => { %>
-                    <div class="form-check form-check-sm">
-                        <input class="form-check-input translation-checkbox" type="checkbox" 
-                               id="settings_english<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>" 
-                               data-translation="<%= t.id %>" 
-                               data-order="<%= t.order %>"
-                               <%= t.isDefault ? 'checked' : '' %>>
-                        <label class="form-check-label small" for="settings_english<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>"><%= t.label %></label>
-                    </div>
-                    <% }) %>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Reset Button -->
-        <div class="settings-section">
-            <button class="btn btn-outline-danger w-100" id="resetSettings">
-                <i class="bi bi-arrow-counterclockwise"></i> Reset to Default
+<!-- 3-Panel Surah Layout -->
+<div class="surah-3panel-layout">
+    <!-- LEFT SIDEBAR: Surah Navigation List -->
+    <aside class="surah-sidebar" id="surahSidebar">
+        <div class="sidebar-header">
+            <a href="/quran" class="sidebar-back-btn" title="Back to Surahs">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h6 class="sidebar-title mb-0">সূরা তালিকা</h6>
+            <button class="sidebar-close-btn d-lg-none" id="closeSidebar" title="Close">
+                <i class="bi bi-x-lg"></i>
             </button>
         </div>
-    </div>
-</div>
-
-<!-- Settings Panel Overlay -->
-<div id="settingsPanelOverlay" class="settings-overlay"></div>
-
-<div class="card mb-4">
-    <div class="card-header bg-success text-white">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h3 class="mb-0 arabic-text"><%= surah.name %></h3>
-                <h5 class="mb-0"><%= surah.transliteration %> - <%= surah.translation %></h5>
-            </div>
-            <span class="badge bg-light text-dark"><%= surah.totalAyahs %> Ayahs</span>
-        </div>
-    </div>
-    
-    <!-- Translation Selection -->
-    <div class="card-body border-bottom">
-        <div class="row g-3">
-            <!-- Bengali Translations -->
-            <div class="col-md-6">
-                <h6 class="mb-2"><i class="bi bi-translate text-success me-1"></i> বাংলা অনুবাদ</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <% config.translationsByLanguage.bangla.forEach((t, index) => { %>
-                    <div class="form-check d-flex align-items-center gap-1">
-                        <!-- <select class="form-select form-select-sm translation-order-select" 
-                                data-translation="<%= t.id %>" 
-                                data-language="bangla"
-                                style="width: 50px; padding: 2px 4px; font-size: 0.75rem;">
-                            <% for(let i = 1; i <= config.translationsByLanguage.bangla.length; i++) { %>
-                            <option value="<%= i %>" <%= t.order === i ? 'selected' : '' %>><%= i %></option>
-                            <% } %>
-                        </select> -->
-                        <input class="form-check-input translation-checkbox" type="checkbox" 
-                               id="bangla<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>" 
-                               data-translation="<%= t.id %>" 
-                               data-order="<%= t.order %>"
-                               <%= t.isDefault ? 'checked' : '' %>>
-                        <label class="form-check-label small" for="bangla<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>"><%= t.label %></label>
-                    </div>
-                    <% }) %>
-                </div>
-            </div>
-            <!-- English Translations -->
-            <div class="col-md-6">
-                <h6 class="mb-2"><i class="bi bi-translate text-primary me-1"></i> English Translation</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <% config.translationsByLanguage.english.forEach((t, index) => { %>
-                    <div class="form-check d-flex align-items-center gap-1">
-                        <!-- <select class="form-select form-select-sm translation-order-select" 
-                                data-translation="<%= t.id %>" 
-                                data-language="english"
-                                style="width: 50px; padding: 2px 4px; font-size: 0.75rem;">
-                            <% for(let i = 1; i <= config.translationsByLanguage.english.length; i++) { %>
-                            <option value="<%= i %>" <%= t.order === i ? 'selected' : '' %>><%= i %></option>
-                            <% } %>
-                        </select> -->
-                        <input class="form-check-input translation-checkbox" type="checkbox" 
-                               id="english<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>" 
-                               data-translation="<%= t.id %>" 
-                               data-order="<%= t.order %>"
-                               <%= t.isDefault ? 'checked' : '' %>>
-                        <label class="form-check-label small" for="english<%= t.id.charAt(0).toUpperCase() + t.id.slice(1) %>"><%= t.label %></label>
-                    </div>
-                    <% }) %>
-                </div>
+        <div class="sidebar-search">
+            <div class="sidebar-search-input-wrap">
+                <i class="bi bi-search"></i>
+                <input type="text" class="sidebar-search-input" id="surahSearchInput" placeholder="সূরা খুঁজুন...">
             </div>
         </div>
-        
-        <!-- Word-by-Word Toggle -->
-        <div class="mt-3 pt-3 border-top">
-            <div class="form-check form-switch word-by-word-toggle">
-                <input class="form-check-input" type="checkbox" role="switch" id="wordByWordToggle" checked>
-                <label class="form-check-label" for="wordByWordToggle">
-                    <i class="bi bi-cursor-text me-1"></i> 
-                    শব্দে শব্দে অর্থ (Word-by-Word) 
-                    <small class="text-muted">- ডাবল ক্লিকে উচ্চারণ শুনুন</small>
-                </label>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Audio Player Section -->
-    <div class="card-body border-top">
-        <div class="d-flex flex-column gap-3">
-            
-            <!-- Arabic Reciter Selection -->
-            <div class="d-flex align-items-center gap-2 flex-wrap reciter-section" id="arabicReciterSection" data-language="arabic" style="display: none;">
-                <label class="form-label mb-0"><i class="bi bi-person-circle"></i> আরবি কারী:</label>
-                <% if (config.audio.reciters.arabic.length > 1) { %>
-                <select class="form-select form-select-sm reciter-select" id="arabicReciterSelect" data-language="arabic" style="max-width: 280px;">
-                    <% config.audio.reciters.arabic.forEach(r => { %>
-                    <option value="<%= r.id %>" <%= r.isDefault ? 'selected' : '' %>><%= r.name %></option>
-                    <% }) %>
-                </select>
-                <% } else { %>
-                <span class="badge bg-success"><%= config.audio.reciters.arabic[0].name %></span>
-                <% } %>
-            </div>
-            
-            <!-- Urdu Reciter Selection -->
-            <div class="d-flex align-items-center gap-2 flex-wrap reciter-section" id="urduReciterSection" data-language="urdu" style="display: none;">
-                <label class="form-label mb-0"><i class="bi bi-person-circle"></i> উর্দু কারী:</label>
-                <% if (config.audio.reciters.urdu.length > 1) { %>
-                <select class="form-select form-select-sm reciter-select" id="urduReciterSelect" data-language="urdu" style="max-width: 280px;">
-                    <% config.audio.reciters.urdu.forEach(r => { %>
-                    <option value="<%= r.id %>" <%= r.isDefault ? 'selected' : '' %>><%= r.name %></option>
-                    <% }) %>
-                </select>
-                <% } else { %>
-                <span class="badge bg-success"><%= config.audio.reciters.urdu[0].name %></span>
-                <% } %>
-            </div>
-            
-            <!-- English Reciter Selection -->
-            <div class="d-flex align-items-center gap-2 flex-wrap reciter-section" id="englishReciterSection" data-language="english" style="display: none;">
-                <label class="form-label mb-0"><i class="bi bi-person-circle"></i> English Reciter:</label>
-                <% if (config.audio.reciters.english.length > 1) { %>
-                <select class="form-select form-select-sm reciter-select" id="englishReciterSelect" data-language="english" style="max-width: 280px;">
-                    <% config.audio.reciters.english.forEach(r => { %>
-                    <option value="<%= r.id %>" <%= r.isDefault ? 'selected' : '' %>><%= r.name %></option>
-                    <% }) %>
-                </select>
-                <% } else { %>
-                <span class="badge bg-primary"><%= config.audio.reciters.english[0].name %></span>
-                <% } %>
-            </div>
-
-            <!-- Audio Type Selection -->
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <label class="form-label mb-0"><i class="bi bi-translate"></i> Audio Type:</label>
-                <div class="btn-group" role="group">
-                    <% config.audio.types.forEach((type, index) => { %>
-                    <input type="radio" class="btn-check" name="audioType" id="audio<%= type.id.charAt(0).toUpperCase() + type.id.slice(1) %>" value="<%= type.id %>" <%= index === 0 ? 'checked' : '' %>>
-                    <label class="btn btn-outline-success btn-sm" for="audio<%= type.id.charAt(0).toUpperCase() + type.id.slice(1) %>"><%= type.labelBn ? type.labelBn + ' (' + type.label + ')' : type.label %></label>
-                    <% }) %>
-                </div>
-            </div>
-            
-            
-            <!-- Full Surah Player -->
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-                <button class="btn btn-success" id="playSurahBtn">
-                    <i class="bi bi-play-fill"></i> Play Full Surah
-                </button>
-                <button class="btn btn-outline-secondary" id="stopSurahBtn" style="display: none;">
-                    <i class="bi bi-stop-fill"></i> Stop
-                </button>
-                <span id="nowPlaying" class="text-muted small"></span>
-            </div>
-            
-            <!-- Audio Element for Full Surah -->
-            <audio id="surahAudio" class="w-100" controls style="display: none;"></audio>
-        </div>
-    </div>
-</div>
-
-<!-- Pagination Controls (Top) -->
-<% if (surah.ayahs && surah.ayahs.length > 20) { %>
-<div class="d-flex justify-content-between align-items-center mb-3 pagination-controls flex-wrap gap-2">
-    <div class="d-flex align-items-center gap-2">
-        <label class="form-label mb-0 small">আয়াত/পেজ:</label>
-        <select class="form-select form-select-sm" id="ayahsPerPage" style="width: auto;">
-            <option value="10">10</option>
-            <option value="20" selected>20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="all">সব</option>
-        </select>
-    </div>
-    <span class="text-muted small" id="pageInfo"></span>
-    <nav aria-label="Ayah pagination">
-        <ul class="pagination pagination-sm mb-0" id="paginationTop"></ul>
-    </nav>
-</div>
-<% } %>
-
-<!-- Ayahs Container -->
-<div id="ayahsContainer">
-<!-- Ayahs with individual play buttons -->
-<% if (surah.ayahs && surah.ayahs.length > 0) { %>
-    <% surah.ayahs.forEach(ayah => { %>
-        <div class="card ayah-card ayah-item" id="ayah-<%= ayah.number %>" data-ayah-number="<%= ayah.number %>">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="badge bg-success"><%= ayah.number %></span>
-                        <button class="btn btn-sm btn-outline-success play-ayah-btn" 
-                                data-surah-id="<%= surah.id %>" 
-                                data-ayah-number="<%= ayah.number %>"
-                                title="Play this Ayah">
-                            <i class="bi bi-play-fill"></i>
-                        </button>
-                    </div>
-                    <div class="d-flex gap-1">
-                        <% const defaultTranslation = config.translations.find(t => t.isDefault && t.language === 'bangla') || config.translations[0]; %>
-                        <button class="btn btn-sm btn-outline-primary share-btn" 
-                                data-surah-id="<%= surah.id %>" 
-                                data-surah-name="<%= surah.transliteration %>"
-                                data-ayah-number="<%= ayah.number %>"
-                                data-ayah-text="<%= ayah.text %>"
-                                data-ayah-translation="<%= ayah.translations[defaultTranslation.id] || '' %>"
-                                title="Share this Ayah">
-                            <i class="bi bi-share"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-warning bookmark-btn" 
-                                data-surah-id="<%= surah.id %>" 
-                                data-ayah-number="<%= ayah.number %>"
-                                data-ayah-text="<%= ayah.text %>"
-                                data-ayah-translation="<%= ayah.translations[defaultTranslation.id] || '' %>"
-                                title="Bookmark this Ayah">
-                            <i class="bi bi-bookmark"></i>
-                        </button>
-                    </div>
-                </div>
-                <p class="arabic-text" id="arabic-<%= ayah.number %>"><%= ayah.text %></p>
-                
-                <!-- Dynamic Translations Container -->
-                <div class="translations-container" data-ayah="<%= ayah.number %>">
-                <% config.translations.forEach((t, index) => { %>
-                <% if (ayah.translations[t.id]) { %>
-                <div class="translation-<%= t.id %> <%= t.language %>-translation translation-item" 
-                     data-translation-id="<%= t.id %>"
-                     data-language="<%= t.language %>"
-                     data-order="<%= t.order %>"
-                     style="<%= t.isDefault ? '' : 'display: none;' %>">
-                    <p class="translation-text <%= t.language === 'english' ? 'text-muted' : '' %> mb-2">
-                        <span class="badge <%= t.language === 'bangla' ? 'bg-success' : 'bg-secondary' %> me-1">
-                            <%= t.language === 'bangla' ? 'বাংলা' : 'English' %>
-                        </span>
-                        <small class="<%= t.language === 'english' ? '' : 'text-muted' %> fw-semibold"><%= t.label %>:</small>
-                        <br><%= ayah.translations[t.id] %>
-                    </p>
-                </div>
-                <% } %>
+        <ul class="surah-nav-list" id="surahNavList">
+            <% if (typeof allSurahs !== 'undefined') { %>
+                <% allSurahs.forEach(s => { %>
+                    <li class="surah-nav-item <%= s.id === surah.id ? 'active' : '' %>"
+                        data-id="<%= s.id %>"
+                        data-name="<%= s.transliteration.toLowerCase() %>"
+                        data-bangla="<%= s.banglish || '' %>">
+                        <a href="/surah/<%= s.id %>" class="surah-nav-link">
+                            <span class="surah-nav-number"><%= s.id %></span>
+                            <div class="surah-nav-info">
+                                <span class="surah-nav-name"><%= s.transliteration %></span>
+                                <span class="surah-nav-meta"><%= s.banglish || s.translation %> • <%= s.totalAyahs %></span>
+                            </div>
+                            <span class="surah-nav-arabic"><%= s.name %></span>
+                        </a>
+                    </li>
                 <% }) %>
+            <% } %>
+        </ul>
+    </aside>
+    <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Toggle (Mobile) -->
+    <button class="sidebar-toggle-btn d-lg-none" id="sidebarToggleBtn" title="Surah List">
+        <i class="bi bi-list-ul"></i>
+    </button>
+
+    <!-- MIDDLE: Main Content Area -->
+    <main class="surah-main-content">
+        <div class="surah-content-inner">
+        <!-- Main Content Area -->
+        <div class="card mb-4 surah-info-card border-0 shadow-sm">
+            <div class="card-header bg-success text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="mb-0 arabic-text">
+                            <%= surah.name %>
+                        </h3>
+                        <h5 class="mb-0">
+                            <%= surah.transliteration %> - <%= surah.translation %>
+                        </h5>
+                    </div>
+                    <span class="badge bg-light text-dark px-3 py-2">
+                        <%= surah.totalAyahs %> Ayahs
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 text-muted">এই সূরাটি কুরআনের <%= surah.id %> তম সূরা। এতে মোট <%= surah.totalAyahs
+                                %> টি আয়াত রয়েছে।</p>
                 </div>
             </div>
         </div>
-    <% }) %>
-<% } else { %>
-    <div class="alert alert-warning">
-        <i class="bi bi-exclamation-triangle"></i> 
-        Could not load ayahs. Please try refreshing the page or check your internet connection.
-    </div>
-<% } %>
-</div>
 
-<!-- Pagination Controls (Bottom) -->
-<% if (surah.ayahs && surah.ayahs.length > 20) { %>
-<div class="d-flex justify-content-center mt-3">
-    <nav aria-label="Ayah pagination bottom">
-        <ul class="pagination" id="paginationBottom"></ul>
-    </nav>
-</div>
-<% } %>
+        <!-- Pagination Controls (Top) -->
+        <% if (surah.ayahs && surah.ayahs.length> 20) { %>
+            <div class="d-flex justify-content-between align-items-center mb-4 pagination-controls flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <label class="form-label mb-0 small fw-bold">আয়াত/পেজ:</label>
+                    <select class="form-select form-select-sm shadow-none" id="ayahsPerPage" style="width: auto;">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="all">সব</option>
+                    </select>
+                </div>
+                <span class="text-muted small fw-medium" id="pageInfo"></span>
+                <nav aria-label="Ayah pagination">
+                    <ul class="pagination pagination-sm mb-0" id="paginationTop"></ul>
+                </nav>
+            </div>
+            <% } %>
 
-<!-- Hidden audio element for ayah playback -->
+                <!-- Auto Scroll Floating Button -->
+                <button id="autoScrollBtn" class="btn btn-success btn-sm rounded-pill fw-bold px-3 shadow-sm auto-scroll-btn-floating">
+                    <i class="bi bi-chevron-double-down me-1"></i> Auto Scroll
+                </button>
+
+                <!-- Ayahs Container -->
+                <div id="ayahsContainer">
+                    <% if (surah.ayahs && surah.ayahs.length> 0) { %>
+                        <% surah.ayahs.forEach(ayah=> { %>
+                            <div class="card ayah-card ayah-item shadow-sm" id="ayah-<%= ayah.number %>"
+                                data-ayah-number="<%= ayah.number %>">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start mb-4">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span
+                                                class="badge bg-success rounded-circle p-2 d-flex align-items-center justify-content-center"
+                                                style="width: 32px; height: 32px;">
+                                                <%= ayah.number %>
+                                            </span>
+                                            <button
+                                                class="btn btn-sm btn-outline-success play-ayah-btn rounded-pill px-3"
+                                                data-surah-id="<%= surah.id %>" data-ayah-number="<%= ayah.number %>"
+                                                title="Play this Ayah">
+                                                <i class="bi bi-play-fill me-1"></i> শুনুন
+                                            </button>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <% const defaultTranslation=config.translations.find(t=> t.isDefault &&
+                                                t.language === 'bangla') || config.translations[0]; %>
+                                                <button class="btn btn-sm btn-outline-primary share-btn rounded-circle"
+                                                    data-surah-id="<%= surah.id %>"
+                                                    data-surah-name="<%= surah.transliteration %>"
+                                                    data-ayah-number="<%= ayah.number %>"
+                                                    data-ayah-text="<%= ayah.text %>"
+                                                    data-ayah-translation="<%= ayah.translations[defaultTranslation.id] || '' %>"
+                                                    title="Share this Ayah">
+                                                    <i class="bi bi-share"></i>
+                                                </button>
+                                                <button
+                                                    class="btn btn-sm btn-outline-warning bookmark-btn rounded-circle"
+                                                    data-surah-id="<%= surah.id %>"
+                                                    data-ayah-number="<%= ayah.number %>"
+                                                    data-ayah-text="<%= ayah.text %>"
+                                                    data-ayah-translation="<%= ayah.translations[defaultTranslation.id] || '' %>"
+                                                    title="Bookmark this Ayah">
+                                                    <i class="bi bi-bookmark"></i>
+                                                </button>
+                                        </div>
+                                    </div>
+                                    <p class="arabic-text mb-4" id="arabic-<%= ayah.number %>">
+                                        <%= ayah.text %>
+                                    </p>
+
+                                    <!-- Dynamic Translations Container -->
+                                    <div class="translations-container" data-ayah="<%= ayah.number %>">
+                                        <% config.translations.forEach((t)=> { %>
+                                            <% if (ayah.translations[t.id]) { %>
+                                                <div class="translation-<%= t.id %> <%= t.language %>-translation translation-item mb-3"
+                                                    data-translation-id="<%= t.id %>" data-language="<%= t.language %>"
+                                                    data-order="<%= t.order %>"
+                                                    style="<%= t.isDefault ? '' : 'display: none;' %>">
+                                                    <div
+                                                        class="translation-box p-3 rounded-3 bg-light-subtle border-start border-4 <%= t.language === 'bangla' ? 'border-success' : 'border-primary' %>">
+                                                        <div class="d-flex align-items-center gap-2 mb-2">
+                                                            <span
+                                                                class="badge <%= t.language === 'bangla' ? 'bg-success' : 'bg-primary' %> small">
+                                                                <%= t.language==='bangla' ? 'বাংলা' : 'English' %>
+                                                            </span>
+                                                            <small class="text-muted fw-bold">
+                                                                <%= t.label %>
+                                                            </small>
+                                                        </div>
+                                                        <p class="translation-text mb-0 fs-5">
+                                                            <%= ayah.translations[t.id] %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } else { %>
+                                    <div class="alert alert-warning shadow-sm">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        Could not load ayahs. Please try refreshing the page.
+                                    </div>
+                                    <% } %>
+                </div>
+
+                <!-- Pagination Controls (Bottom) -->
+                <% if (surah.ayahs && surah.ayahs.length> 20) { %>
+                    <div class="d-flex justify-content-center mt-5 mb-5">
+                        <nav aria-label="Ayah pagination bottom">
+                            <ul class="pagination pagination-sm mb-0" id="paginationBottom"></ul>
+                        </nav>
+                    </div>
+                <% } %>
+
+    </div> <!-- End surah-content-inner -->
+    </main> <!-- End surah-main-content -->
+
+    <!-- RIGHT SIDEBAR: Quick Settings -->
+    <aside class="quick-settings-sidebar" id="quickSettingsSidebar">
+        <div class="qs-header">
+            <h6 class="qs-title"><i class="bi bi-sliders2-vertical me-1"></i> Quick Settings</h6>
+            <button class="qs-close-btn d-lg-none" id="closeQuickSettings"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="qs-body">
+            <!-- Content Section -->
+            <div class="qs-section">
+                <h6 class="qs-section-title">Content</h6>
+                <div class="qs-toggle-group">
+                    <label class="qs-toggle-item">
+                        <span class="qs-toggle-label">Arabic</span>
+                        <i class="bi bi-check-lg text-success"></i>
+                    </label>
+                    <label class="qs-toggle-item">
+                        <span class="qs-toggle-label">Word by Word</span>
+                        <input type="checkbox" id="wordByWordToggle" checked>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Translation Selection -->
+            <div class="qs-section">
+                <h6 class="qs-section-title">বাংলা অনুবাদ</h6>
+                <div class="qs-checkbox-group">
+                    <% config.translationsByLanguage.bangla.forEach((t) => { %>
+                        <label class="qs-checkbox-item">
+                            <span><%= t.label %></span>
+                            <input class="form-check-input translation-checkbox" type="checkbox"
+                                id="quick_bangla<%= t.id %>" data-translation="<%= t.id %>"
+                                data-order="<%= t.order %>" <%=t.isDefault ? 'checked' : '' %>>
+                        </label>
+                    <% }) %>
+                </div>
+            </div>
+
+            <div class="qs-section">
+                <h6 class="qs-section-title">English</h6>
+                <div class="qs-checkbox-group">
+                    <% config.translationsByLanguage.english.forEach((t) => { %>
+                        <label class="qs-checkbox-item">
+                            <span><%= t.label %></span>
+                            <input class="form-check-input translation-checkbox" type="checkbox"
+                                id="quick_english<%= t.id %>" data-translation="<%= t.id %>"
+                                data-order="<%= t.order %>" <%=t.isDefault ? 'checked' : '' %>>
+                        </label>
+                    <% }) %>
+                </div>
+            </div>
+
+            <!-- Audio Settings -->
+            <div class="qs-section">
+                <h6 class="qs-section-title"><i class="bi bi-volume-up-fill me-1"></i> অডিও</h6>
+                <!-- Arabic Reciter Selection -->
+                <div class="mb-2 reciter-section" id="arabicReciterSection" data-language="arabic">
+                    <label class="qs-label">আরবি কারী</label>
+                    <% if (config.audio.reciters.arabic.length > 1) { %>
+                        <select class="form-select form-select-sm shadow-none qs-select" id="arabicReciterSelect"
+                            data-language="arabic">
+                            <% config.audio.reciters.arabic.forEach(r => { %>
+                                <option value="<%= r.id %>" <%=r.isDefault ? 'selected' : '' %>><%= r.name %></option>
+                            <% }) %>
+                        </select>
+                    <% } else { %>
+                        <div class="qs-static-value"><%= config.audio.reciters.arabic[0].name %></div>
+                    <% } %>
+                </div>
+
+                <!-- Urdu Reciter Selection -->
+                <div class="mb-2 reciter-section" id="urduReciterSection" data-language="urdu" style="display: none;">
+                    <label class="qs-label">উর্দু কারী</label>
+                    <% if (config.audio.reciters.urdu.length > 1) { %>
+                        <select class="form-select form-select-sm shadow-none qs-select" id="urduReciterSelect"
+                            data-language="urdu">
+                            <% config.audio.reciters.urdu.forEach(r => { %>
+                                <option value="<%= r.id %>" <%=r.isDefault ? 'selected' : '' %>><%= r.name %></option>
+                            <% }) %>
+                        </select>
+                    <% } else { %>
+                        <div class="qs-static-value"><%= config.audio.reciters.urdu[0].name %></div>
+                    <% } %>
+                </div>
+
+                <!-- English Reciter Selection -->
+                <div class="mb-2 reciter-section" id="englishReciterSection" data-language="english" style="display: none;">
+                    <label class="qs-label">English Reciter</label>
+                    <% if (config.audio.reciters.english.length > 1) { %>
+                        <select class="form-select form-select-sm shadow-none qs-select" id="englishReciterSelect"
+                            data-language="english">
+                            <% config.audio.reciters.english.forEach(r => { %>
+                                <option value="<%= r.id %>" <%=r.isDefault ? 'selected' : '' %>><%= r.name %></option>
+                            <% }) %>
+                        </select>
+                    <% } else { %>
+                        <div class="qs-static-value"><%= config.audio.reciters.english[0].name %></div>
+                    <% } %>
+                </div>
+
+                <!-- Audio Type -->
+                <label class="qs-label mt-2">অডিও ধরন</label>
+                <div class="qs-audio-types">
+                    <% config.audio.types.forEach((type, index) => { %>
+                        <label class="qs-audio-type-item">
+                            <input type="radio" name="audioType" id="audio<%= type.id %>"
+                                value="<%= type.id %>" <%=index===0 ? 'checked' : '' %>>
+                            <span><%= type.labelBn || type.label %></span>
+                        </label>
+                    <% }) %>
+                </div>
+
+                <button class="btn btn-success btn-sm w-100 mt-2 fw-bold" id="playSurahBtn">
+                    <i class="bi bi-play-fill me-1"></i> সূরা শুরু করুন
+                </button>
+                <button class="btn btn-outline-danger btn-sm w-100 mt-1 fw-bold" id="stopSurahBtn" style="display: none;">
+                    <i class="bi bi-stop-fill me-1"></i> থামুন
+                </button>
+                <div id="nowPlaying" class="text-muted text-center small mt-1 fw-medium"></div>
+            </div>
+
+            <!-- Display Settings -->
+            <div class="qs-section">
+                <h6 class="qs-section-title"><i class="bi bi-display me-1"></i> ডিসপ্লে</h6>
+                <label class="qs-label">ফন্ট</label>
+                <select class="form-select form-select-sm shadow-none qs-select quran-font-select">
+                    <option value="traditional" selected>Traditional Arabic</option>
+                    <option value="uthmani">Uthmani</option>
+                    <option value="indopak">IndoPak</option>
+                    <option value="tajweed">Tajweed</option>
+                </select>
+
+                <label class="qs-label mt-2">আরবি সাইজ</label>
+                <div class="qs-size-control">
+                    <button class="btn btn-sm btn-outline-secondary" id="decreaseSize"><i class="bi bi-dash"></i></button>
+                    <span class="fw-bold" id="sizeDisplay">100%</span>
+                    <button class="btn btn-sm btn-outline-secondary" id="increaseSize"><i class="bi bi-plus"></i></button>
+                </div>
+
+                <label class="qs-label mt-2">অনুবাদ সাইজ</label>
+                <div class="qs-size-control">
+                    <button class="btn btn-sm btn-outline-secondary" id="decreaseTranslationSize"><i class="bi bi-dash"></i></button>
+                    <span class="fw-bold" id="translationSizeDisplay">100%</span>
+                    <button class="btn btn-sm btn-outline-secondary" id="increaseTranslationSize"><i class="bi bi-plus"></i></button>
+                </div>
+
+                <button class="btn btn-sm btn-outline-secondary w-100 mt-3" id="resetSettings">ডিফল্ট রিসেট</button>
+            </div>
+        </div>
+    </aside>
+    <div class="qs-overlay d-lg-none" id="qsOverlay"></div>
+
+    <!-- Quick Settings Toggle (Mobile) -->
+    <button class="qs-toggle-btn d-lg-none" id="qsToggleBtn" title="Quick Settings">
+        <i class="bi bi-sliders2-vertical"></i>
+    </button>
+</div> <!-- End surah-3panel-layout -->
+
 <audio id="ayahAudio"></audio>
 
 <!-- Fixed Bottom Audio Player Control Bar -->
@@ -401,7 +367,7 @@
             </div>
             <span class="time-display" id="totalTime">0:00</span>
         </div>
-        
+
         <!-- Main Controls -->
         <div class="controls-section">
             <!-- Left Controls -->
@@ -421,7 +387,7 @@
                     <i class="bi bi-repeat"></i>
                 </button>
             </div>
-            
+
             <!-- Center Controls -->
             <div class="controls-center">
                 <button class="player-btn nav-btn" id="prevAyahBtn" title="Previous Ayah">
@@ -434,7 +400,7 @@
                     <i class="bi bi-skip-forward-fill"></i>
                 </button>
             </div>
-            
+
             <!-- Right Controls -->
             <div class="controls-right">
                 <div class="volume-control">
@@ -450,12 +416,29 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Now Playing Info -->
         <div class="now-playing-section">
             <div class="now-playing-info">
-                <span class="surah-name"><%= surah.transliteration %></span>
+                <span class="surah-name">
+                    <%= surah.transliteration %>
+                </span>
                 <span class="ayah-indicator" id="playerAyahIndicator">Select an ayah to play</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Word Analysis Modal -->
+<div id="wordModal" class="wm-overlay" style="display:none;">
+    <div class="wm-container">
+        <div class="wm-header">
+            <span class="wm-title"><i class="bi bi-book"></i> শব্দ বিশ্লেষণ (Word Analysis)</span>
+            <button class="wm-close" id="wmClose"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="wm-body" id="wmBody">
+            <div class="wm-loading">
+                <div class="spinner-border text-success"></div>
             </div>
         </div>
     </div>
@@ -466,13 +449,13 @@
     // DYNAMIC CONFIGURATION (from server)
     // ============================================
     const APP_CONFIG = <%- JSON.stringify(config) %>;
-    
+
     // Surah ayah counts from server config (derived from SURAH_METADATA)
     const SURAH_AYAH_COUNTS = APP_CONFIG.surahAyahCounts;
-    
+
     const surahId = <%= surah.id %>;
     const totalAyahs = <%= surah.totalAyahs %>;
-    
+
     // Calculate global ayah number
     function getGlobalAyahNumber(surahId, ayahNumber) {
         let globalNumber = 0;
@@ -481,14 +464,14 @@
         }
         return globalNumber + ayahNumber;
     }
-    
+
     // Get Arabic ayah audio URL (everyayah.com - reliable source)
     function getArabicAyahAudioUrl(surahId, ayahNumber, reciterFolder) {
         const paddedSurah = String(surahId).padStart(3, '0');
         const paddedAyah = String(ayahNumber).padStart(3, '0');
         return `https://everyayah.com/data/${reciterFolder}/${paddedSurah}${paddedAyah}.mp3`;
     }
-    
+
     // Get Urdu translation audio URL (uses reciter ID from config)
     function getUrduAyahAudioUrl(surahId, ayahNumber, reciterId) {
         const paddedSurah = String(surahId).padStart(3, '0');
@@ -496,7 +479,7 @@
         // Use the reciter ID directly (it's the folder name)
         return `https://everyayah.com/data/translations/${reciterId}/${paddedSurah}${paddedAyah}.mp3`;
     }
-    
+
     // Get English translation audio URL (uses reciter ID from config)
     function getEnglishAyahAudioUrl(surahId, ayahNumber, reciterId) {
         const paddedSurah = String(surahId).padStart(3, '0');
@@ -504,17 +487,17 @@
         // Use the reciter ID directly (it's the folder path like 'English/Sahih_Intnl_Ibrahim_Walk_192kbps')
         return `https://everyayah.com/data/${reciterId}/${paddedSurah}${paddedAyah}.mp3`;
     }
-    
+
     // Get full surah audio URL (quranicaudio.com)
     function getSurahAudioUrl(surahId, reciterFolder) {
         const paddedSurah = String(surahId).padStart(3, '0');
         return `https://download.quranicaudio.com/quran/${reciterFolder}/${paddedSurah}.mp3`;
     }
-    
+
     // ============================================
     // DYNAMIC AUDIO HELPERS
     // ============================================
-    
+
     // Get default reciter ID for a language
     function getDefaultReciter(language) {
         const reciters = APP_CONFIG.audio.reciters[language];
@@ -522,7 +505,7 @@
         const defaultReciter = reciters.find(r => r.isDefault);
         return defaultReciter ? defaultReciter.id : reciters[0].id;
     }
-    
+
     // Get selected reciter for a language (from dropdown or default)
     function getSelectedReciter(language) {
         const select = document.getElementById(`${language}ReciterSelect`);
@@ -531,14 +514,14 @@
         }
         return getDefaultReciter(language);
     }
-    
+
     // Audio elements
     const surahAudio = document.getElementById('surahAudio');
     const ayahAudio = document.getElementById('ayahAudio');
     const playSurahBtn = document.getElementById('playSurahBtn');
     const stopSurahBtn = document.getElementById('stopSurahBtn');
     const nowPlaying = document.getElementById('nowPlaying');
-    
+
     // Dynamic reciter sections
     const reciterSections = {};
     APP_CONFIG.audio.types.forEach(type => {
@@ -548,49 +531,49 @@
             }
         });
     });
-    
+
     // Audio type radio buttons
     const audioTypeRadios = document.querySelectorAll('input[name="audioType"]');
-    
+
     let currentlyPlayingAyah = null;
     let isPlayingSequence = false;
     let currentAudioType = 'arabic';
     let isPlayingTranslationAfterArabic = false;
-    
+
     // Hidden audio element for translation playback in "Both" mode
     const translationAudio = document.createElement('audio');
     translationAudio.id = 'translationAudio';
     document.body.appendChild(translationAudio);
-    
+
     // Get current audio type
     function getAudioType() {
         const selected = document.querySelector('input[name="audioType"]:checked');
         return selected ? selected.value : 'arabic';
     }
-    
+
     // Get translation language for "both" mode
     function getTranslationLanguage() {
         return localStorage.getItem('translationLanguage') || 'english';
     }
-    
+
     // Function to update reciter section visibility based on audio type (DYNAMIC)
     function updateReciterSectionVisibility(audioType) {
         // Hide all reciter sections first
         Object.values(reciterSections).forEach(section => {
             if (section) section.style.display = 'none';
         });
-        
+
         // Find the audio type config
         const audioTypeConfig = APP_CONFIG.audio.types.find(t => t.id === audioType);
         if (!audioTypeConfig) return;
-        
+
         // Show the relevant sections
         audioTypeConfig.showsReciters.forEach(lang => {
             const section = reciterSections[lang];
             if (section) section.style.display = 'flex';
         });
     }
-    
+
     // Handle audio type change
     audioTypeRadios.forEach(radio => {
         radio.addEventListener('change', () => {
@@ -599,7 +582,7 @@
             localStorage.setItem('audioType', currentAudioType);
         });
     });
-    
+
     // Initialize: Load saved audio type and update visibility
     const savedAudioType = localStorage.getItem('audioType') || 'arabic';
     const savedRadio = document.querySelector(`input[name="audioType"][value="${savedAudioType}"]`);
@@ -611,17 +594,17 @@
     setTimeout(() => {
         updateReciterSectionVisibility(savedAudioType);
     }, 0);
-    
+
     // Load saved reciter preferences for all languages dynamically
     Object.keys(APP_CONFIG.audio.reciters).forEach(language => {
         const savedKey = `preferredReciter_${language}`;
         const savedReciter = localStorage.getItem(savedKey);
         const select = document.getElementById(`${language}ReciterSelect`);
-        
+
         if (select && savedReciter) {
             select.value = savedReciter;
         }
-        
+
         // Save preference on change
         if (select) {
             select.addEventListener('change', () => {
@@ -629,7 +612,7 @@
             });
         }
     });
-    
+
     // Migration: old 'preferredReciter' to new format
     const oldSavedReciter = localStorage.getItem('preferredReciter');
     if (oldSavedReciter) {
@@ -652,11 +635,11 @@
             localStorage.removeItem('preferredReciter'); // Clean up old key
         }
     }
-    
+
     // Play full surah (Arabic only - translations play ayah by ayah)
     playSurahBtn.addEventListener('click', () => {
         const audioType = getAudioType();
-        
+
         if (audioType === 'urdu' || audioType === 'english') {
             // For translations, play ayah by ayah starting from first
             const firstAyahBtn = document.querySelector('.play-ayah-btn[data-ayah-number="1"]');
@@ -665,54 +648,54 @@
             }
             return;
         }
-        
+
         const reciterId = getSelectedReciter('arabic') || getDefaultReciter('arabic');
         const audioUrl = getSurahAudioUrl(surahId, reciterId);
-        
+
         surahAudio.src = audioUrl;
         surahAudio.style.display = 'block';
         surahAudio.play();
-        
+
         playSurahBtn.style.display = 'none';
         stopSurahBtn.style.display = 'inline-block';
         nowPlaying.textContent = audioType === 'both' ? 'Playing full surah (Arabic)...' : 'Playing full surah...';
     });
-    
+
     // Stop surah
     stopSurahBtn.addEventListener('click', () => {
         surahAudio.pause();
         surahAudio.currentTime = 0;
         surahAudio.style.display = 'none';
-        
+
         playSurahBtn.style.display = 'inline-block';
         stopSurahBtn.style.display = 'none';
         nowPlaying.textContent = '';
     });
-    
+
     // When surah audio ends
     surahAudio.addEventListener('ended', () => {
         playSurahBtn.style.display = 'inline-block';
         stopSurahBtn.style.display = 'none';
         nowPlaying.textContent = '';
     });
-    
+
     // Play individual ayah
     document.querySelectorAll('.play-ayah-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const ayahNumber = parseInt(btn.dataset.ayahNumber);
             const audioType = getAudioType();
             const arabicReciterId = getSelectedReciter('arabic') || getDefaultReciter('arabic');
-            
+
             // Stop surah audio if playing
             surahAudio.pause();
             playSurahBtn.style.display = 'inline-block';
             stopSurahBtn.style.display = 'none';
             surahAudio.style.display = 'none';
-            
+
             // Reset translation state
             isPlayingTranslationAfterArabic = false;
             translationAudio.pause();
-            
+
             // Reset previous playing button and card highlight
             if (currentlyPlayingAyah) {
                 const prevBtn = document.querySelector(`.play-ayah-btn[data-ayah-number="${currentlyPlayingAyah}"]`);
@@ -726,7 +709,7 @@
                     prevCard.classList.remove('playing', 'border-success');
                 }
             }
-            
+
             // If clicking same ayah, toggle
             if (currentlyPlayingAyah === ayahNumber && !ayahAudio.paused) {
                 ayahAudio.pause();
@@ -739,7 +722,7 @@
                 nowPlaying.textContent = '';
                 return;
             }
-            
+
             // Determine which audio to play based on type (using dynamic config)
             let audioUrl;
             if (audioType === 'arabic' || audioType === 'both') {
@@ -751,16 +734,16 @@
                 const englishReciterId = getSelectedReciter('english') || getDefaultReciter('english');
                 audioUrl = getEnglishAyahAudioUrl(surahId, ayahNumber, englishReciterId);
             }
-            
+
             // Play the audio
             ayahAudio.src = audioUrl;
             ayahAudio.play().catch(err => console.error('Play error:', err));
-            
+
             btn.innerHTML = '<i class="bi bi-pause-fill"></i>';
             btn.classList.add('btn-success', 'playing');
             btn.classList.remove('btn-outline-success');
             currentlyPlayingAyah = ayahNumber;
-            
+
             // Set status text based on audio type (dynamic)
             const audioTypeConfig = APP_CONFIG.audio.types.find(t => t.id === audioType);
             if (audioType === 'both') {
@@ -771,7 +754,7 @@
             } else {
                 nowPlaying.textContent = `Playing Ayah ${ayahNumber}`;
             }
-            
+
             // Highlight current ayah with playing animation
             document.querySelectorAll('.ayah-card').forEach(card => card.classList.remove('playing', 'border-success'));
             const currentCard = document.getElementById(`ayah-${ayahNumber}`);
@@ -779,16 +762,16 @@
             currentCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
     });
-    
+
     // When ayah audio ends - handled by bottom player bar code
     // (See the comprehensive handler in the Bottom Audio Player Bar Controls section)
-    
+
     // When translation audio ends (for "Both" mode) - handled by bottom player bar code
     // (See the comprehensive handler in the Bottom Audio Player Bar Controls section)
-    
+
     // Bookmark functionality
     const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-    
+
     // Update bookmark button icons on load
     document.querySelectorAll('.bookmark-btn').forEach(btn => {
         const surahId = parseInt(btn.dataset.surahId);
@@ -798,7 +781,7 @@
             btn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
         }
     });
-    
+
     // Handle bookmark toggle
     document.querySelectorAll('.bookmark-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -806,9 +789,9 @@
             const ayahNumber = parseInt(btn.dataset.ayahNumber);
             const text = btn.dataset.ayahText;
             const translation = btn.dataset.ayahTranslation;
-            
+
             const index = bookmarks.findIndex(b => b.surahId === surahId && b.ayahNumber === ayahNumber);
-            
+
             if (index > -1) {
                 bookmarks.splice(index, 1);
                 btn.innerHTML = '<i class="bi bi-bookmark"></i>';
@@ -816,11 +799,11 @@
                 bookmarks.push({ surahId, ayahNumber, text, translation });
                 btn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
             }
-            
+
             localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
         });
     });
-    
+
     // Share functionality
     function showShareToast(message) {
         const toast = document.createElement('div');
@@ -829,7 +812,7 @@
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 3000);
     }
-    
+
     document.querySelectorAll('.share-btn').forEach(btn => {
         btn.addEventListener('click', async () => {
             const surahId = btn.dataset.surahId;
@@ -837,23 +820,23 @@
             const ayahNumber = btn.dataset.ayahNumber;
             const arabicText = btn.dataset.ayahText;
             const translation = btn.dataset.ayahTranslation;
-            
+
             // Get current page from URL
             const params = new URLSearchParams(window.location.search);
             const currentPage = params.get('page');
-            
+
             // Build URL with page parameter if present
             let shareUrl = `${window.location.origin}/surah/${surahId}`;
             if (currentPage && currentPage !== '1') {
                 shareUrl += `?page=${currentPage}`;
             }
             shareUrl += `#ayah-${ayahNumber}`;
-            
+
             const shareText = `📖 সূরা ${surahName} - আয়াত ${ayahNumber}\n\n${arabicText}\n\n${translation}\n\n🔗 ${shareUrl}`;
-            
+
             // Always copy to clipboard first
             await copyToClipboard(shareText, shareUrl);
-            
+
             // Then try Web Share API (mobile-friendly)
             if (navigator.share) {
                 try {
@@ -868,7 +851,7 @@
             }
         });
     });
-    
+
     async function copyToClipboard(text, url) {
         console.log('Copying to clipboard:', url);
         try {
@@ -887,7 +870,7 @@
             showShareToast('লিংক কপি করা হয়েছে! 📋');
         }
     }
-    
+
     // =========================================
     // Bottom Audio Player Bar Controls
     // =========================================
@@ -907,25 +890,25 @@
     const currentTimeDisplay = document.getElementById('currentTime');
     const totalTimeDisplay = document.getElementById('totalTime');
     const playerAyahIndicator = document.getElementById('playerAyahIndicator');
-    
+
     // Player state
     let isAutoPlayEnabled = true;
     let repeatMode = 'none'; // 'none', 'one', 'all'
     let playbackSpeed = 1;
-    
+
     // Load saved preferences
     const savedAutoPlay = localStorage.getItem('autoPlayEnabled');
     if (savedAutoPlay !== null) {
         isAutoPlayEnabled = savedAutoPlay === 'true';
     }
     autoPlayToggle.classList.toggle('active', isAutoPlayEnabled);
-    
+
     const savedRepeat = localStorage.getItem('repeatMode');
     if (savedRepeat) {
         repeatMode = savedRepeat;
         updateRepeatButton();
     }
-    
+
     const savedVolume = localStorage.getItem('playerVolume');
     if (savedVolume) {
         volumeSlider.value = savedVolume;
@@ -933,7 +916,7 @@
         translationAudio.volume = savedVolume / 100;
         updateVolumeIcon(savedVolume);
     }
-    
+
     const savedSpeed = localStorage.getItem('playbackSpeed');
     if (savedSpeed) {
         playbackSpeed = parseFloat(savedSpeed);
@@ -941,16 +924,16 @@
         ayahAudio.playbackRate = playbackSpeed;
         translationAudio.playbackRate = playbackSpeed;
     }
-    
+
     // Show player bar when there's an ayah to play
     function showPlayerBar() {
         playerBar.classList.add('active');
     }
-    
+
     function hidePlayerBar() {
         playerBar.classList.remove('active');
     }
-    
+
     // Format time (seconds to mm:ss)
     function formatTime(seconds) {
         if (isNaN(seconds)) return '0:00';
@@ -958,7 +941,7 @@
         const secs = Math.floor(seconds % 60);
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
-    
+
     // Update progress bar
     ayahAudio.addEventListener('timeupdate', () => {
         if (ayahAudio.duration) {
@@ -967,30 +950,30 @@
             currentTimeDisplay.textContent = formatTime(ayahAudio.currentTime);
         }
     });
-    
+
     ayahAudio.addEventListener('loadedmetadata', () => {
         totalTimeDisplay.textContent = formatTime(ayahAudio.duration);
     });
-    
+
     ayahAudio.addEventListener('play', () => {
         playPauseIcon.className = 'bi bi-pause-fill';
         mainPlayPauseBtn.classList.add('playing');
         showPlayerBar();
     });
-    
+
     ayahAudio.addEventListener('pause', () => {
         if (!isPlayingTranslationAfterArabic) {
             playPauseIcon.className = 'bi bi-play-fill';
             mainPlayPauseBtn.classList.remove('playing');
         }
     });
-    
+
     // Translation audio events for "Both" mode
     translationAudio.addEventListener('play', () => {
         playPauseIcon.className = 'bi bi-pause-fill';
         mainPlayPauseBtn.classList.add('playing');
     });
-    
+
     translationAudio.addEventListener('timeupdate', () => {
         if (isPlayingTranslationAfterArabic && translationAudio.duration) {
             const progress = (translationAudio.currentTime / translationAudio.duration) * 100;
@@ -999,21 +982,21 @@
             totalTimeDisplay.textContent = formatTime(translationAudio.duration);
         }
     });
-    
+
     // Click on progress bar to seek
     progressBarContainer.addEventListener('click', (e) => {
         const rect = progressBarContainer.getBoundingClientRect();
         const clickX = e.clientX - rect.left;
         const width = rect.width;
         const percent = clickX / width;
-        
+
         if (isPlayingTranslationAfterArabic) {
             translationAudio.currentTime = percent * translationAudio.duration;
         } else if (ayahAudio.duration) {
             ayahAudio.currentTime = percent * ayahAudio.duration;
         }
     });
-    
+
     // Main play/pause button
     mainPlayPauseBtn.addEventListener('click', () => {
         if (currentlyPlayingAyah) {
@@ -1038,7 +1021,7 @@
             }
         }
     });
-    
+
     // Previous ayah button
     prevAyahBtn.addEventListener('click', () => {
         if (currentlyPlayingAyah && currentlyPlayingAyah > 1) {
@@ -1046,7 +1029,7 @@
             ayahAudio.pause();
             translationAudio.pause();
             isPlayingTranslationAfterArabic = false;
-            
+
             const prevAyah = currentlyPlayingAyah - 1;
             const prevBtn = document.querySelector(`.play-ayah-btn[data-ayah-number="${prevAyah}"]`);
             if (prevBtn) {
@@ -1054,7 +1037,7 @@
             }
         }
     });
-    
+
     // Next ayah button
     nextAyahBtn.addEventListener('click', () => {
         if (currentlyPlayingAyah && currentlyPlayingAyah < totalAyahs) {
@@ -1062,7 +1045,7 @@
             ayahAudio.pause();
             translationAudio.pause();
             isPlayingTranslationAfterArabic = false;
-            
+
             const nextAyah = currentlyPlayingAyah + 1;
             const nextBtn = document.querySelector(`.play-ayah-btn[data-ayah-number="${nextAyah}"]`);
             if (nextBtn) {
@@ -1070,7 +1053,7 @@
             }
         }
     });
-    
+
     // Speed control dropdown
     speedSelect.addEventListener('change', () => {
         playbackSpeed = parseFloat(speedSelect.value);
@@ -1078,7 +1061,7 @@
         translationAudio.playbackRate = playbackSpeed;
         localStorage.setItem('playbackSpeed', playbackSpeed);
     });
-    
+
     // Repeat mode toggle
     function updateRepeatButton() {
         if (repeatMode === 'none') {
@@ -1092,7 +1075,7 @@
             repeatBtn.innerHTML = '<i class="bi bi-repeat"></i>';
         }
     }
-    
+
     repeatBtn.addEventListener('click', () => {
         if (repeatMode === 'none') {
             repeatMode = 'one';
@@ -1104,7 +1087,7 @@
         updateRepeatButton();
         localStorage.setItem('repeatMode', repeatMode);
     });
-    
+
     // Volume control
     function updateVolumeIcon(value) {
         if (value == 0) {
@@ -1115,7 +1098,7 @@
             volumeIcon.className = 'bi bi-volume-up-fill';
         }
     }
-    
+
     volumeSlider.addEventListener('input', () => {
         const value = volumeSlider.value;
         ayahAudio.volume = value / 100;
@@ -1124,7 +1107,7 @@
         updateVolumeIcon(value);
         localStorage.setItem('playerVolume', value);
     });
-    
+
     let previousVolume = 100;
     volumeBtn.addEventListener('click', () => {
         if (volumeSlider.value > 0) {
@@ -1135,14 +1118,14 @@
         }
         volumeSlider.dispatchEvent(new Event('input'));
     });
-    
+
     // Auto-play toggle
     autoPlayToggle.addEventListener('click', () => {
         isAutoPlayEnabled = !isAutoPlayEnabled;
         autoPlayToggle.classList.toggle('active', isAutoPlayEnabled);
         localStorage.setItem('autoPlayEnabled', isAutoPlayEnabled);
     });
-    
+
     // Update player bar ayah indicator when playing
     function updatePlayerBarInfo(ayahNumber) {
         if (ayahNumber) {
@@ -1151,13 +1134,13 @@
             if (audioType === 'urdu') audioTypeText = 'উর্দু';
             else if (audioType === 'english') audioTypeText = 'English';
             else if (audioType === 'both') audioTypeText = 'Arabic + Translation';
-            
+
             playerAyahIndicator.textContent = `আয়াত ${ayahNumber} • ${audioTypeText}`;
         } else {
             playerAyahIndicator.textContent = 'Select an ayah to play';
         }
     }
-    
+
     // Override existing ayah button click to update player bar
     const originalPlayHandler = (btn) => {
         btn.addEventListener('click', () => {
@@ -1165,16 +1148,16 @@
             updatePlayerBarInfo(parseInt(btn.dataset.ayahNumber));
         });
     };
-    
+
     document.querySelectorAll('.play-ayah-btn').forEach(btn => {
         originalPlayHandler(btn);
     });
-    
+
     // Update the ayahAudio ended handler to use autoplay setting and repeat mode
-    ayahAudio.removeEventListener('ended', () => {});
+    ayahAudio.removeEventListener('ended', () => { });
     ayahAudio.addEventListener('ended', () => {
         const audioType = getAudioType();
-        
+
         // If in "both" mode and Arabic just finished, play English translation
         if (audioType === 'both' && !isPlayingTranslationAfterArabic) {
             isPlayingTranslationAfterArabic = true;
@@ -1187,30 +1170,30 @@
             updatePlayerBarInfo(currentlyPlayingAyah);
             return;
         }
-        
+
         // Check repeat mode
         if (repeatMode === 'one') {
             ayahAudio.currentTime = 0;
             ayahAudio.play();
             return;
         }
-        
+
         // Reset translation state
         isPlayingTranslationAfterArabic = false;
-        
+
         const btn = document.querySelector(`.play-ayah-btn[data-ayah-number="${currentlyPlayingAyah}"]`);
         if (btn) {
             btn.innerHTML = '<i class="bi bi-play-fill"></i>';
             btn.classList.remove('btn-success', 'playing');
             btn.classList.add('btn-outline-success');
         }
-        
+
         // Remove highlight from current card
         const currentCard = document.getElementById(`ayah-${currentlyPlayingAyah}`);
         if (currentCard) {
             currentCard.classList.remove('playing');
         }
-        
+
         // Auto-play next ayah if enabled
         if (isAutoPlayEnabled && currentlyPlayingAyah < totalAyahs) {
             const nextAyah = currentlyPlayingAyah + 1;
@@ -1235,12 +1218,12 @@
             document.querySelectorAll('.ayah-card').forEach(card => card.classList.remove('playing', 'border-success'));
         }
     });
-    
+
     // Update translation audio ended handler
-    translationAudio.removeEventListener('ended', () => {});
+    translationAudio.removeEventListener('ended', () => { });
     translationAudio.addEventListener('ended', () => {
         isPlayingTranslationAfterArabic = false;
-        
+
         // Check repeat mode for "both" audio type
         if (repeatMode === 'one') {
             // Restart from Arabic
@@ -1250,20 +1233,20 @@
             }
             return;
         }
-        
+
         const btn = document.querySelector(`.play-ayah-btn[data-ayah-number="${currentlyPlayingAyah}"]`);
         if (btn) {
             btn.innerHTML = '<i class="bi bi-play-fill"></i>';
             btn.classList.remove('btn-success', 'playing');
             btn.classList.add('btn-outline-success');
         }
-        
+
         // Remove highlight from current card
         const currentCard = document.getElementById(`ayah-${currentlyPlayingAyah}`);
         if (currentCard) {
             currentCard.classList.remove('playing');
         }
-        
+
         // Auto-play next ayah if enabled
         if (isAutoPlayEnabled && currentlyPlayingAyah < totalAyahs) {
             const nextAyah = currentlyPlayingAyah + 1;
@@ -1288,15 +1271,15 @@
             document.querySelectorAll('.ayah-card').forEach(card => card.classList.remove('playing', 'border-success'));
         }
     });
-    
+
     // Keyboard shortcuts for player
     document.addEventListener('keydown', (e) => {
         // Don't trigger if typing in an input
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
             return;
         }
-        
-        switch(e.code) {
+
+        switch (e.code) {
             case 'Space':
                 e.preventDefault();
                 mainPlayPauseBtn.click();
@@ -1327,16 +1310,280 @@
 </script>
 
 <style>
+    body.page-surah {
+        padding-top: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* ============================================
+       3-PANEL LAYOUT SYSTEM
+       ============================================ */
+    .surah-3panel-layout {
+        display: flex;
+        height: 100vh;
+        max-height: 100vh;
+        position: relative;
+        margin: 0;
+    }
+
+    /* Floating Auto Scroll Button */
+    .auto-scroll-btn-floating {
+        position: fixed;
+        bottom: 90px;
+        right: 250px;
+        z-index: 1030;
+        transition: all 0.3s ease;
+    }
+
+    /* LEFT SIDEBAR */
+    .surah-sidebar {
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+        background: var(--bs-body-bg);
+        border-right: 1px solid rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 200;
+    }
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #198754, #20c997);
+        color: #fff;
+    }
+    .sidebar-back-btn {
+        width: 30px; height: 30px;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.2);
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+    .sidebar-back-btn:hover { background: rgba(255,255,255,0.35); color: #fff; transform: scale(1.1); }
+    .sidebar-title { font-size: 0.85rem; font-weight: 700; }
+    .sidebar-close-btn {
+        background: rgba(255,255,255,0.2); border: none; color: #fff;
+        width: 28px; height: 28px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; margin-left: auto; font-size: 12px;
+    }
+    .sidebar-search { padding: 8px 10px; flex-shrink: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .sidebar-search-input-wrap {
+        display: flex; align-items: center; gap: 6px;
+        background: rgba(0,0,0,0.04); border-radius: 8px; padding: 6px 10px;
+    }
+    .sidebar-search-input-wrap i { color: #999; font-size: 13px; }
+    .sidebar-search-input {
+        border: none; background: transparent; outline: none; width: 100%;
+        font-size: 0.8rem; color: inherit;
+    }
+    .surah-nav-list {
+        list-style: none; margin: 0; padding: 0;
+        overflow-y: auto; flex: 1;
+        scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.15) transparent;
+    }
+    .surah-nav-item { border-bottom: 1px solid rgba(0,0,0,0.04); }
+    .surah-nav-link {
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 10px; text-decoration: none; color: inherit;
+        transition: background 0.15s;
+    }
+    .surah-nav-link:hover { background: rgba(25, 135, 84, 0.06); }
+    .surah-nav-item.active .surah-nav-link {
+        background: linear-gradient(135deg, #198754, #20c997);
+        color: #fff;
+    }
+    .surah-nav-number {
+        width: 28px; height: 28px; min-width: 28px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.8rem; font-weight: 700;
+        border: 1.5px solid rgba(0,0,0,0.15); border-radius: 6px;
+        background: rgba(25, 135, 84, 0.05);
+        color: inherit;
+    }
+    .surah-nav-item.active .surah-nav-number { 
+        border-color: rgba(255,255,255,0.5); 
+        background: rgba(255,255,255,0.1); 
+    }
+    .surah-nav-info { flex: 1; min-width: 0; }
+    .surah-nav-name { display: block; font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .surah-nav-meta { display: block; font-size: 0.65rem; opacity: 0.7; }
+    .surah-nav-arabic { font-family: var(--arabic-font); font-size: 0.85rem; flex-shrink: 0; }
+
+    /* MIDDLE CONTENT */
+    .surah-main-content {
+        flex: 1;
+        min-width: 0;
+        overflow-y: auto;
+        padding: 16px 2px;
+    }
+    .surah-content-inner { max-width: 100%; margin: 0 auto; padding: 0 4px; }
+
+    /* RIGHT SIDEBAR - Quick Settings (narrow) */
+    .quick-settings-sidebar {
+        width: 230px;
+        min-width: 230px;
+        background: var(--bs-body-bg);
+        border-left: 1px solid rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 200;
+    }
+    .qs-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        flex-shrink: 0;
+    }
+    .qs-title { font-size: 0.8rem; font-weight: 700; color: #6b4226; margin: 0; }
+    .qs-close-btn {
+        background: none; border: none; color: #999;
+        width: 26px; height: 26px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; font-size: 12px;
+    }
+    .qs-body {
+        overflow-y: auto; flex: 1; padding: 0;
+        scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.1) transparent;
+    }
+    .qs-section {
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .qs-section-title {
+        font-size: 0.75rem; font-weight: 700; color: #6b4226;
+        text-transform: uppercase; letter-spacing: 0.03em;
+        margin-bottom: 8px;
+    }
+    .qs-label {
+        display: block; font-size: 0.72rem; font-weight: 600;
+        color: #888; margin-bottom: 4px;
+    }
+    .qs-select { font-size: 0.75rem !important; padding: 4px 8px !important; border-radius: 6px !important; }
+    .qs-static-value { font-size: 0.75rem; padding: 4px 8px; background: rgba(25,135,84,0.08); border-radius: 6px; color: #198754; font-weight: 600; }
+    .qs-toggle-group { display: flex; flex-direction: column; gap: 6px; }
+    .qs-toggle-item {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 8px; font-size: 0.78rem; font-weight: 500; cursor: pointer;
+        width: 100%;
+    }
+    .qs-toggle-item input[type="checkbox"] {
+        width: 16px; height: 16px; accent-color: #198754;
+        border-radius: 3px; cursor: pointer;
+    }
+    .qs-checkbox-group { display: flex; flex-direction: column; gap: 4px; }
+    .qs-checkbox-item {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 6px; font-size: 0.73rem; cursor: pointer;
+        width: 100%;
+    }
+    .qs-checkbox-item .form-check-input { width: 14px; height: 14px; margin: 0; }
+    .qs-audio-types { display: flex; flex-wrap: wrap; gap: 4px; }
+    .qs-audio-type-item {
+        font-size: 0.7rem; cursor: pointer;
+        display: flex; align-items: center; gap: 3px;
+    }
+    .qs-audio-type-item input { accent-color: #198754; width: 12px; height: 12px; }
+    .qs-size-control {
+        display: flex; align-items: center; justify-content: space-between;
+        background: rgba(0,0,0,0.03); padding: 4px 8px; border-radius: 8px;
+    }
+    .qs-size-control .btn { padding: 2px 8px; font-size: 0.8rem; }
+    .qs-size-control span { font-size: 0.85rem; }
+
+    /* MOBILE SIDEBARS */
+    @media (max-width: 991.98px) {
+        .surah-3panel-layout { margin: -1.5rem 0; }
+        .surah-sidebar {
+            position: fixed; left: -260px; top: 0; width: 250px; min-width: 250px;
+            height: 100vh; z-index: 1060;
+            transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: none;
+        }
+        .surah-sidebar.open { left: 0; box-shadow: 4px 0 30px rgba(0,0,0,0.3); }
+        .sidebar-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 1055; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+        .sidebar-toggle-btn {
+            position: fixed; left: 12px; top: 12px; z-index: 1040;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, #198754, #20c997);
+            color: #fff; border: none; font-size: 18px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 12px rgba(25,135,84,0.4);
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .sidebar-toggle-btn:active { transform: scale(0.9); }
+
+        .quick-settings-sidebar {
+            position: fixed; right: -260px; top: 0; width: 250px; min-width: 250px;
+            height: 100vh; z-index: 1060;
+            transition: right 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow: none;
+        }
+        .quick-settings-sidebar.open { right: 0; box-shadow: -4px 0 30px rgba(0,0,0,0.3); }
+        .qs-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 1055; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .qs-overlay.open { opacity: 1; pointer-events: auto; }
+        .qs-toggle-btn {
+            position: fixed; right: 12px; top: 12px; z-index: 1040;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, #6b4226, #a0522d);
+            color: #fff; border: none; font-size: 18px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 12px rgba(107,66,38,0.4);
+            cursor: pointer; transition: transform 0.2s;
+        }
+        .qs-toggle-btn:active { transform: scale(0.9); }
+        .surah-main-content { padding: 12px 4px; }
+        .auto-scroll-btn-floating {
+            right: 20px;
+            bottom: 110px;
+        }
+    }
+
+    /* Dark mode */
+    [data-bs-theme="dark"] .surah-sidebar,
+    [data-bs-theme="dark"] .quick-settings-sidebar { border-color: rgba(255,255,255,0.08); }
+    [data-bs-theme="dark"] .sidebar-search-input-wrap { background: rgba(255,255,255,0.06); }
+    [data-bs-theme="dark"] .surah-nav-link:hover { background: rgba(25,135,84,0.15); }
+    [data-bs-theme="dark"] .surah-nav-number { border-color: rgba(255,255,255,0.2); }
+    [data-bs-theme="dark"] .qs-section { border-color: rgba(255,255,255,0.06); }
+    [data-bs-theme="dark"] .qs-section-title,
+    [data-bs-theme="dark"] .qs-title { color: #d4a574; }
+    [data-bs-theme="dark"] .qs-size-control { background: rgba(255,255,255,0.05); }
+
     /* Translation checkbox styling */
     .form-check {
         padding-left: 1.75em;
     }
-    
+
     .translation-checkbox:checked {
         background-color: #198754;
         border-color: #198754;
     }
-    
+
     /* Translation order select styling */
     .translation-order-select {
         border: 1px solid #dee2e6;
@@ -1346,33 +1593,33 @@
         min-width: 45px;
         text-align: center;
     }
-    
+
     .translation-order-select:focus {
         border-color: #198754;
         box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
         outline: none;
     }
-    
+
     [data-bs-theme="dark"] .translation-order-select {
         background-color: #2c3034;
         border-color: #495057;
         color: #fff;
     }
-    
+
     .translation-text small.fw-semibold {
         display: inline-block;
         margin-bottom: 0.25rem;
     }
-    
+
     /* Dark mode for translation section */
     [data-bs-theme="dark"] .card-body h6 {
         color: #fff;
     }
-    
+
     [data-bs-theme="dark"] .form-check-label {
         color: #e0e0e0;
     }
-    
+
     /* Playing ayah card - enhanced highlight */
     .ayah-card.playing {
         border-left: 5px solid #871983 !important;
@@ -1384,7 +1631,7 @@
         position: relative;
         overflow: hidden;
     }
-    
+
     /* Playing indicator bar */
     .ayah-card.playing::before {
         content: '';
@@ -1396,7 +1643,7 @@
         /* background: linear-gradient(180deg, #198754, #20c997, #198754); */
         /* animation: gradient-flow 2s linear infinite; */
     }
-    
+
     /* Sound wave indicator */
     .ayah-card.playing::after {
         /* content: '🔊'; */
@@ -1407,64 +1654,88 @@
         font-size: 1.2rem;
         /* animation: sound-wave 1s ease-in-out infinite; */
     }
-    
+
     .ayah-card.playing .arabic-text {
         color: #146c43;
         font-weight: 600;
         /* animation: text-glow 2s ease-in-out infinite; */
     }
-    
+
     [data-bs-theme="dark"] .ayah-card.playing {
         /* background: linear-gradient(90deg, rgba(25, 135, 84, 0.3) 0%, rgba(25, 135, 84, 0.15) 50%, rgba(25, 135, 84, 0.05) 100%); */
         box-shadow: 0 0 30px rgba(157, 243, 203, 0.5);
     }
-    
+
     [data-bs-theme="dark"] .ayah-card.playing .arabic-text {
         color: #75b798;
     }
-    
+
     @keyframes pulse-highlight {
-        0%, 100% {
+
+        0%,
+        100% {
             box-shadow: 0 0 15px rgba(25, 135, 84, 0.3);
         }
+
         50% {
             box-shadow: 0 0 30px rgba(25, 135, 84, 0.6);
         }
     }
-    
+
     @keyframes gradient-flow {
-        0% { background-position: 0% 0%; }
-        100% { background-position: 0% 200%; }
+        0% {
+            background-position: 0% 0%;
+        }
+
+        100% {
+            background-position: 0% 200%;
+        }
     }
-    
+
     @keyframes sound-wave {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(1.2); }
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: scale(1.2);
+        }
     }
-    
+
     @keyframes text-glow {
-        0%, 100% { text-shadow: 0 0 5px rgba(25, 135, 84, 0.3); }
-        50% { text-shadow: 0 0 15px rgba(25, 135, 84, 0.6); }
+
+        0%,
+        100% {
+            text-shadow: 0 0 5px rgba(25, 135, 84, 0.3);
+        }
+
+        50% {
+            text-shadow: 0 0 15px rgba(25, 135, 84, 0.6);
+        }
     }
-    
+
     .ayah-card.border-success {
         border-left-color: #198754 !important;
         border-width: 4px;
         background-color: rgba(25, 135, 84, 0.05);
     }
-    
+
     [data-bs-theme="dark"] .ayah-card.border-success {
         background-color: rgba(25, 135, 84, 0.1);
     }
-    
+
     .ayah-item.hidden {
         display: none !important;
     }
-    
+
     .pagination .page-link {
         cursor: pointer;
     }
-    
+
     /* Now Playing button indicator */
     .play-ayah-btn.playing {
         animation: btn-pulse 1s ease-in-out infinite;
@@ -1472,24 +1743,27 @@
         border-color: #198754 !important;
         color: white !important;
     }
-    
+
     @keyframes btn-pulse {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: scale(1);
             box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7);
         }
+
         50% {
             transform: scale(1.1);
             box-shadow: 0 0 0 10px rgba(25, 135, 84, 0);
         }
     }
-    
+
     /* Share button styles */
     .share-btn:hover {
         background-color: #0d6efd;
         color: white;
     }
-    
+
     /* Toast notification */
     .share-toast {
         position: fixed;
@@ -1500,16 +1774,23 @@
         color: white;
         padding: 12px 24px;
         border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         z-index: 9999;
         animation: toast-slide-up 0.3s ease;
     }
-    
+
     @keyframes toast-slide-up {
-        from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-        to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     }
-    
+
     /* Shared link highlight effect */
     .ayah-card.shared-highlight {
         border: 3px solid #0d6efd !important;
@@ -1517,23 +1798,26 @@
         animation: shared-pulse 1.5s ease-in-out 3;
         box-shadow: 0 0 25px rgba(13, 110, 253, 0.5);
     }
-    
+
     [data-bs-theme="dark"] .ayah-card.shared-highlight {
         background: linear-gradient(90deg, rgba(13, 110, 253, 0.3) 0%, rgba(13, 110, 253, 0.15) 50%, rgba(13, 110, 253, 0.05) 100%);
         box-shadow: 0 0 35px rgba(13, 110, 253, 0.6);
     }
-    
+
     @keyframes shared-pulse {
-        0%, 100% {
+
+        0%,
+        100% {
             box-shadow: 0 0 15px rgba(13, 110, 253, 0.4);
             transform: scale(1);
         }
+
         50% {
             box-shadow: 0 0 35px rgba(13, 110, 253, 0.7);
             transform: scale(1.02);
         }
     }
-    
+
     /* Fixed Bottom Audio Player Bar */
     .audio-player-bar {
         position: fixed;
@@ -1548,11 +1832,11 @@
         transform: translateY(100%);
         transition: transform 0.3s ease;
     }
-    
+
     .audio-player-bar.active {
         transform: translateY(0);
     }
-    
+
     .player-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -1560,14 +1844,14 @@
         flex-direction: column;
         gap: 6px;
     }
-    
+
     /* Progress Section */
     .progress-section {
         display: flex;
         align-items: center;
         gap: 10px;
     }
-    
+
     .time-display {
         font-size: 12px;
         color: #aaa;
@@ -1575,13 +1859,13 @@
         text-align: center;
         font-family: monospace;
     }
-    
+
     .progress-bar-container {
         flex: 1;
         cursor: pointer;
         padding: 8px 0;
     }
-    
+
     .progress-bar-bg {
         height: 6px;
         background: #333;
@@ -1589,7 +1873,7 @@
         overflow: hidden;
         position: relative;
     }
-    
+
     .progress-bar-fill {
         height: 100%;
         background: linear-gradient(90deg, #198754, #20c997);
@@ -1598,7 +1882,7 @@
         transition: width 0.1s linear;
         position: relative;
     }
-    
+
     .progress-bar-fill::after {
         content: '';
         position: absolute;
@@ -1613,18 +1897,18 @@
         opacity: 0;
         transition: opacity 0.2s;
     }
-    
+
     .progress-bar-container:hover .progress-bar-fill::after {
         opacity: 1;
     }
-    
+
     /* Controls Section */
     .controls-section {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    
+
     .controls-left,
     .controls-right {
         display: flex;
@@ -1632,17 +1916,17 @@
         gap: 8px;
         min-width: 120px;
     }
-    
+
     .controls-right {
         justify-content: flex-end;
     }
-    
+
     .controls-center {
         display: flex;
         align-items: center;
         gap: 12px;
     }
-    
+
     .player-btn {
         background: transparent;
         border: none;
@@ -1656,20 +1940,20 @@
         transition: all 0.2s ease;
         font-size: 18px;
     }
-    
+
     .player-btn:hover {
         background: rgba(255, 255, 255, 0.1);
         transform: scale(1.1);
     }
-    
+
     .player-btn:active {
         transform: scale(0.95);
     }
-    
+
     .player-btn.active {
         color: #198754;
     }
-    
+
     .play-pause-btn {
         width: 56px;
         height: 56px;
@@ -1678,30 +1962,37 @@
         font-size: 24px;
         box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4);
     }
-    
+
     .play-pause-btn:hover {
         background: linear-gradient(135deg, #146c43, #198754);
         box-shadow: 0 6px 20px rgba(25, 135, 84, 0.6);
     }
-    
+
     .play-pause-btn.playing {
         animation: pulse-play 2s ease-in-out infinite;
     }
-    
+
     @keyframes pulse-play {
-        0%, 100% { box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4); }
-        50% { box-shadow: 0 4px 25px rgba(25, 135, 84, 0.7); }
+
+        0%,
+        100% {
+            box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4);
+        }
+
+        50% {
+            box-shadow: 0 4px 25px rgba(25, 135, 84, 0.7);
+        }
     }
-    
+
     .nav-btn {
         font-size: 22px;
     }
-    
+
     /* Speed Dropdown */
     .speed-dropdown {
         position: relative;
     }
-    
+
     .speed-select {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1722,53 +2013,53 @@
         padding-right: 28px;
         min-width: 70px;
     }
-    
+
     .speed-select:hover {
         background-color: rgba(255, 255, 255, 0.2);
         border-color: #198754;
     }
-    
+
     .speed-select:focus {
         border-color: #198754;
         box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.3);
     }
-    
+
     .speed-select option {
         background: #1a1a2e;
         color: #fff;
         padding: 8px;
     }
-    
+
     [data-bs-theme="light"] .speed-select {
         background-color: rgba(0, 0, 0, 0.05);
         border-color: rgba(0, 0, 0, 0.2);
         color: #333;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     }
-    
+
     [data-bs-theme="light"] .speed-select option {
         background: #fff;
         color: #333;
     }
-    
+
     /* Volume Control */
     .volume-control {
         display: flex;
         align-items: center;
         position: relative;
     }
-    
+
     .volume-slider-container {
         width: 0;
         overflow: hidden;
         transition: width 0.3s ease;
     }
-    
+
     .volume-control:hover .volume-slider-container {
         width: 80px;
         margin-left: 8px;
     }
-    
+
     .volume-slider {
         width: 80px;
         height: 4px;
@@ -1778,7 +2069,7 @@
         border-radius: 2px;
         outline: none;
     }
-    
+
     .volume-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 14px;
@@ -1787,7 +2078,7 @@
         border-radius: 50%;
         cursor: pointer;
     }
-    
+
     .volume-slider::-moz-range-thumb {
         width: 14px;
         height: 14px;
@@ -1796,13 +2087,13 @@
         cursor: pointer;
         border: none;
     }
-    
+
     /* Now Playing Section */
     .now-playing-section {
         text-align: center;
         padding: 4px 0;
     }
-    
+
     .now-playing-info {
         display: flex;
         justify-content: center;
@@ -1810,99 +2101,99 @@
         gap: 8px;
         flex-wrap: wrap;
     }
-    
+
     .surah-name {
         color: #198754;
         font-weight: 600;
         font-size: 13px;
     }
-    
+
     .ayah-indicator {
         color: #aaa;
         font-size: 12px;
     }
-    
+
     /* Add bottom padding to content when player is active */
     body:has(.audio-player-bar.active) {
         padding-bottom: 140px;
     }
-    
+
     /* Light mode styles */
     [data-bs-theme="light"] .audio-player-bar {
         background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
         border-top-color: #198754;
     }
-    
+
     [data-bs-theme="light"] .player-btn {
         color: #333;
     }
-    
+
     [data-bs-theme="light"] .time-display {
         color: #666;
     }
-    
+
     [data-bs-theme="light"] .progress-bar-bg {
         background: #ccc;
     }
-    
+
     [data-bs-theme="light"] .ayah-indicator {
         color: #666;
     }
-    
+
     [data-bs-theme="light"] .volume-slider {
         background: #ccc;
     }
-    
+
     /* Mobile responsive */
     @media (max-width: 576px) {
         .audio-player-bar {
             padding: 6px 10px;
         }
-        
+
         .controls-left,
         .controls-right {
             min-width: auto;
             gap: 4px;
         }
-        
+
         .player-btn {
             padding: 6px;
             font-size: 16px;
         }
-        
+
         .play-pause-btn {
             width: 48px;
             height: 48px;
             font-size: 20px;
         }
-        
+
         .nav-btn {
             font-size: 18px;
         }
-        
+
         .volume-control:hover .volume-slider-container {
             width: 60px;
         }
-        
+
         .speed-select {
             min-width: 60px;
             padding: 4px 24px 4px 6px;
             font-size: 11px;
         }
-        
+
         .now-playing-info {
             font-size: 11px;
         }
-        
+
         body:has(.audio-player-bar.active) {
             padding-bottom: 120px;
         }
     }
-    
+
     /* ============================================
        WORD-BY-WORD STYLES
        ============================================ */
-    
+
     /* Word container */
     .arabic-text.word-by-word {
         display: flex;
@@ -1911,7 +2202,7 @@
         justify-content: flex-end;
         direction: rtl;
     }
-    
+
     /* Individual word */
     .quran-word {
         display: inline-flex;
@@ -1924,34 +2215,41 @@
         position: relative;
         min-width: auto;
     }
-    
+
     .quran-word:hover {
         background: rgba(25, 135, 84, 0.1);
         transform: scale(1.05);
     }
-    
+
     .quran-word:active {
         transform: scale(0.98);
     }
-    
+
     .quran-word.playing {
         background: linear-gradient(135deg, rgba(25, 135, 84, 0.3), rgba(25, 135, 84, 0.15));
         box-shadow: 0 0 15px rgba(25, 135, 84, 0.5);
         animation: word-pulse 1s ease-in-out infinite;
     }
-    
+
     @keyframes word-pulse {
-        0%, 100% { box-shadow: 0 0 10px rgba(25, 135, 84, 0.4); }
-        50% { box-shadow: 0 0 20px rgba(25, 135, 84, 0.7); }
+
+        0%,
+        100% {
+            box-shadow: 0 0 10px rgba(25, 135, 84, 0.4);
+        }
+
+        50% {
+            box-shadow: 0 0 20px rgba(25, 135, 84, 0.7);
+        }
     }
-    
+
     .word-arabic {
         font-family: var(--arabic-font);
         font-size: var(--arabic-text-size);
         line-height: 1.4;
         color: inherit;
     }
-    
+
     .word-number {
         font-size: 0.65rem;
         padding: 2px 6px;
@@ -1963,7 +2261,7 @@
         min-width: 18px;
         text-align: center;
     }
-    
+
     .word-bangla {
         font-size: 0.75rem;
         color: #198754;
@@ -1975,13 +2273,13 @@
         text-align: center;
         direction: ltr;
     }
-    
+
     /* Always show translation when word-by-word mode is enabled */
     .arabic-text.word-by-word .word-bangla {
         opacity: 1;
         max-height: 50px;
     }
-    
+
     /* Word actions container */
     .word-actions {
         display: flex;
@@ -1990,11 +2288,11 @@
         opacity: 0;
         transition: opacity 0.2s ease;
     }
-    
+
     .quran-word:hover .word-actions {
         opacity: 1;
     }
-    
+
     /* Word search button */
     .word-search-btn {
         display: inline-flex;
@@ -2011,24 +2309,24 @@
         cursor: pointer;
         transition: all 0.2s ease;
     }
-    
+
     .word-search-btn:hover {
         background: #198754;
         color: white;
         transform: scale(1.1);
     }
-    
+
     .word-search-btn:active {
         transform: scale(0.95);
     }
-    
+
     /* Dark mode word search button */
     [data-bs-theme="dark"] .word-search-btn {
         border-color: #75b798;
         background: rgba(117, 183, 152, 0.1);
         color: #75b798;
     }
-    
+
     [data-bs-theme="dark"] .word-search-btn:hover {
         background: #75b798;
         color: #212529;
@@ -2039,20 +2337,20 @@
         opacity: 1;
         max-height: 50px;
     }
-    
+
     /* Dark mode adjustments */
     [data-bs-theme="dark"] .quran-word:hover {
         background: rgba(25, 135, 84, 0.2);
     }
-    
+
     [data-bs-theme="dark"] .quran-word.playing {
         background: linear-gradient(135deg, rgba(25, 135, 84, 0.4), rgba(25, 135, 84, 0.2));
     }
-    
+
     [data-bs-theme="dark"] .word-bangla {
         color: #75b798;
     }
-    
+
     /* Word audio indicator */
     .quran-word::before {
         content: '';
@@ -2066,26 +2364,33 @@
         opacity: 0;
         transition: opacity 0.2s;
     }
-    
+
     .quran-word:hover::before {
         opacity: 0.5;
     }
-    
+
     .quran-word.playing::before {
         opacity: 1;
         animation: dot-pulse 0.5s ease-in-out infinite;
     }
-    
+
     @keyframes dot-pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.5); }
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.5);
+        }
     }
-    
+
     /* Loading state for words */
     .arabic-text.loading-words {
         opacity: 0.5;
     }
-    
+
     .arabic-text.loading-words::after {
         content: 'Loading word-by-word...';
         display: block;
@@ -2096,7 +2401,7 @@
         direction: ltr;
         text-align: center;
     }
-    
+
     /* Word tooltip (alternative to inline) */
     .word-tooltip {
         position: fixed;
@@ -2107,12 +2412,12 @@
         font-size: 0.85rem;
         z-index: 9999;
         pointer-events: none;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         transform: translateX(-50%);
         white-space: nowrap;
         border: 1px solid #198754;
     }
-    
+
     .word-tooltip::after {
         content: '';
         position: absolute;
@@ -2123,17 +2428,17 @@
         border-right: 6px solid transparent;
         border-top: 6px solid #1a1a2e;
     }
-    
+
     [data-bs-theme="light"] .word-tooltip {
         background: #fff;
         color: #333;
         border-color: #198754;
     }
-    
+
     [data-bs-theme="light"] .word-tooltip::after {
         border-top-color: #fff;
     }
-    
+
     /* Double-click hint */
     .word-hint {
         position: fixed;
@@ -2149,28 +2454,434 @@
         animation: hint-fade 3s ease forwards;
         pointer-events: none;
     }
-    
+
     @keyframes hint-fade {
-        0%, 70% { opacity: 1; }
-        100% { opacity: 0; }
+
+        0%,
+        70% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
     }
-    
+
     /* Toggle button for word-by-word */
     .word-by-word-toggle {
         font-size: 0.85rem;
     }
-    
+
     .word-by-word-toggle .form-check-input:checked {
         background-color: #198754;
         border-color: #198754;
+    }
+
+    /* Quick Settings Sidebar */
+    .quick-settings-bar {
+        transition: all 0.3s ease;
+    }
+
+    .settings-card {
+        background: var(--bs-body-bg);
+    }
+
+    .settings-title {
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    .custom-checkbox .form-check-input:checked {
+        background-color: #198754;
+        border-color: #198754;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .translation-box {
+        transition: all 0.2s ease;
+    }
+
+    .translation-box:hover {
+        background-color: rgba(25, 135, 84, 0.05);
+        transform: translateX(5px);
+    }
+
+    [data-bs-theme="dark"] .translation-box {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 991.98px) {
+        .quick-settings-bar {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 2rem;
+        }
+    }
+
+    /* Ayah Card Enhancements */
+    .ayah-card {
+        border: none;
+        border-radius: 16px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ayah-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .bg-light-subtle {
+        background-color: #f8f9fa !important;
+    }
+
+    [data-bs-theme="dark"] .bg-light-subtle {
+        background-color: #2a2a2a !important;
+    }
+
+    /* Word Analysis Modal Adjustments */
+    .wm-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: wmFadeIn 0.25s ease;
+        padding: 16px;
+    }
+
+    @keyframes wmFadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .wm-container {
+        background: #fff;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 520px;
+        max-height: 85vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(25, 135, 84, 0.2);
+        animation: wmSlideUp 0.3s ease;
+    }
+
+    @keyframes wmSlideUp {
+        from {
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    [data-bs-theme="dark"] .wm-container {
+        background: #1e1e2e;
+    }
+
+    .wm-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, #198754, #20c997);
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    .wm-title {
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .wm-close {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .wm-close:hover {
+        background: rgba(255, 255, 255, 0.35);
+        transform: scale(1.1);
+    }
+
+    .wm-body {
+        overflow-y: auto;
+        padding: 20px;
+        flex: 1;
+    }
+
+    .wm-loading {
+        text-align: center;
+        padding: 40px;
+    }
+
+    /* Hero word display */
+    .wm-hero {
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .wm-hero-arabic {
+        font-family: var(--arabic-font);
+        font-size: 3rem;
+        color: #198754;
+        display: block;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    [data-bs-theme="dark"] .wm-hero-arabic {
+        color: #20c997;
+    }
+
+    .wm-hero-audio {
+        background: linear-gradient(135deg, #198754, #20c997);
+        border: none;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wm-hero-audio:hover {
+        transform: scale(1.15);
+        box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4);
+    }
+
+    .wm-hero-audio.playing {
+        animation: wmAudioPulse 1s infinite;
+    }
+
+    @keyframes wmAudioPulse {
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.4);
+        }
+
+        50% {
+            box-shadow: 0 0 0 12px rgba(25, 135, 84, 0);
+        }
+    }
+
+    /* Info grid */
+    .wm-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .wm-info-item {
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(25, 135, 84, 0.05);
+        border: 1px solid rgba(25, 135, 84, 0.1);
+    }
+
+    [data-bs-theme="dark"] .wm-info-item {
+        background: rgba(32, 201, 151, 0.08);
+        border-color: rgba(32, 201, 151, 0.15);
+    }
+
+    .wm-info-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #888;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .wm-info-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #333;
+    }
+
+    [data-bs-theme="dark"] .wm-info-value {
+        color: #e0e0e0;
+    }
+
+    .wm-info-item.full {
+        grid-column: 1 / -1;
+    }
+
+    /* Morphology section */
+    .wm-section {
+        margin-bottom: 16px;
+    }
+
+    .wm-section-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #198754;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    [data-bs-theme="dark"] .wm-section-title {
+        color: #20c997;
+    }
+
+    .wm-morph-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+    }
+
+    .wm-morph-chip {
+        text-align: center;
+        padding: 8px 6px;
+        border-radius: 8px;
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+    }
+
+    [data-bs-theme="dark"] .wm-morph-chip {
+        background: #2a2a3e;
+        border-color: #3a3a4e;
+    }
+
+    .wm-morph-chip .label {
+        font-size: 0.85rem;
+        color: #888;
+        display: block;
+    }
+
+    .wm-morph-chip .value {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    /* Frequency badge */
+    .wm-freq {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, rgba(25, 135, 84, 0.1), rgba(32, 201, 151, 0.1));
+        border: 1px solid rgba(25, 135, 84, 0.15);
+    }
+
+    .wm-freq-num {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #198754;
+    }
+
+    [data-bs-theme="dark"] .wm-freq-num {
+        color: #20c997;
+    }
+
+    /* Action buttons */
+    .wm-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .wm-action-btn {
+        flex: 1;
+        min-width: 140px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(25, 135, 84, 0.3);
+        background: rgba(25, 135, 84, 0.05);
+        color: #198754;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .wm-action-btn:hover {
+        background: #198754;
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    [data-bs-theme="dark"] .wm-action-btn {
+        color: #20c997;
+        border-color: rgba(32, 201, 151, 0.3);
+        background: rgba(32, 201, 151, 0.08);
+    }
+
+    [data-bs-theme="dark"] .wm-action-btn:hover {
+        background: #20c997;
+        color: #1a1a2e;
+    }
+
+    @media (max-width: 480px) {
+        .wm-container {
+            max-height: 90vh;
+            border-radius: 12px;
+        }
+
+        .wm-hero-arabic {
+            font-size: 2.5rem;
+        }
+
+        .wm-info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .wm-morph-grid {
+            grid-template-columns: 1fr 1fr;
+        }
     }
 </style>
 
 <script>
     // Pagination functionality
-    (function() {
+    (function () {
         const ayahItems = document.querySelectorAll('.ayah-item');
-        
+
         // Handle hash-based ayah highlighting for surahs with 20 or fewer ayahs (no pagination)
         if (ayahItems.length <= 20) {
             const hash = window.location.hash;
@@ -2181,10 +2892,10 @@
                     if (ayahCard) {
                         // Scroll to the ayah
                         ayahCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
+
                         // Add highlight effect
                         ayahCard.classList.add('shared-highlight');
-                        
+
                         // Remove highlight after a few seconds
                         setTimeout(() => {
                             ayahCard.classList.remove('shared-highlight');
@@ -2194,29 +2905,29 @@
             }
             return; // No pagination needed
         }
-        
+
         const perPageSelect = document.getElementById('ayahsPerPage');
         const pageInfo = document.getElementById('pageInfo');
         const paginationTop = document.getElementById('paginationTop');
         const paginationBottom = document.getElementById('paginationBottom');
-        
+
         let currentPage = 1;
         let itemsPerPage = 20;
-        
+
         // Load saved preference
         const savedPerPage = localStorage.getItem('ayahsPerPage');
         if (savedPerPage) {
             perPageSelect.value = savedPerPage;
             itemsPerPage = savedPerPage === 'all' ? ayahItems.length : parseInt(savedPerPage);
         }
-        
+
         // Get page from URL
         function getPageFromUrl() {
             const params = new URLSearchParams(window.location.search);
             const page = parseInt(params.get('page'));
             return page && page > 0 ? page : 1;
         }
-        
+
         // Update URL with page number
         function updateUrl(page) {
             const url = new URL(window.location);
@@ -2225,13 +2936,13 @@
             } else {
                 url.searchParams.delete('page');
             }
-            window.history.pushState({page: page}, '', url);
+            window.history.pushState({ page: page }, '', url);
         }
-        
+
         function getTotalPages() {
             return Math.ceil(ayahItems.length / itemsPerPage);
         }
-        
+
         function showPage(page, updateHistory = true) {
             const totalPages = getTotalPages();
             // Clamp page to valid range
@@ -2239,7 +2950,7 @@
             currentPage = page;
             const start = (page - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            
+
             ayahItems.forEach((item, index) => {
                 if (itemsPerPage === ayahItems.length || (index >= start && index < end)) {
                     item.classList.remove('hidden');
@@ -2247,19 +2958,19 @@
                     item.classList.add('hidden');
                 }
             });
-            
+
             updatePageInfo();
             renderPagination();
-            
+
             // Update URL
             if (updateHistory) {
                 updateUrl(page);
             }
-            
+
             // Scroll to top of ayahs
             document.getElementById('ayahsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
+
         function updatePageInfo() {
             const totalPages = getTotalPages();
             if (itemsPerPage === ayahItems.length) {
@@ -2270,7 +2981,7 @@
                 pageInfo.textContent = `${start}-${end} / ${ayahItems.length} আয়াত (পেজ ${currentPage}/${totalPages})`;
             }
         }
-        
+
         function renderPagination() {
             const totalPages = getTotalPages();
             if (totalPages <= 1) {
@@ -2278,51 +2989,51 @@
                 paginationBottom.innerHTML = '';
                 return;
             }
-            
+
             let html = '';
-            
+
             // Previous button
             html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
                 <a class="page-link" data-page="${currentPage - 1}">&laquo;</a>
             </li>`;
-            
+
             // Page numbers with ellipsis
             const maxVisible = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
             let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-            
+
             if (endPage - startPage < maxVisible - 1) {
                 startPage = Math.max(1, endPage - maxVisible + 1);
             }
-            
+
             if (startPage > 1) {
                 html += `<li class="page-item"><a class="page-link" data-page="1">1</a></li>`;
                 if (startPage > 2) {
                     html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
                 }
             }
-            
+
             for (let i = startPage; i <= endPage; i++) {
                 html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
                     <a class="page-link" data-page="${i}">${i}</a>
                 </li>`;
             }
-            
+
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
                     html += `<li class="page-item disabled"><span class="page-link">...</span></li>`;
                 }
                 html += `<li class="page-item"><a class="page-link" data-page="${totalPages}">${totalPages}</a></li>`;
             }
-            
+
             // Next button
             html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
                 <a class="page-link" data-page="${currentPage + 1}">&raquo;</a>
             </li>`;
-            
+
             paginationTop.innerHTML = html;
             paginationBottom.innerHTML = html;
-            
+
             // Add click handlers
             document.querySelectorAll('.pagination .page-link[data-page]').forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -2334,7 +3045,7 @@
                 });
             });
         }
-        
+
         // Handle per-page change
         perPageSelect.addEventListener('change', () => {
             const value = perPageSelect.value;
@@ -2343,18 +3054,18 @@
             currentPage = 1;
             showPage(1);
         });
-        
+
         // Handle browser back/forward
         window.addEventListener('popstate', (e) => {
             const page = e.state?.page || getPageFromUrl();
             showPage(page, false);
         });
-        
+
         // Initialize with page from URL or navigate to ayah from hash
         const hash = window.location.hash;
         if (hash && hash.startsWith('#ayah-')) {
             const ayahNumber = parseInt(hash.replace('#ayah-', ''));
-            
+
             // Find the index of this ayah in the ayahItems NodeList
             let ayahIndex = -1;
             ayahItems.forEach((item, index) => {
@@ -2362,22 +3073,22 @@
                     ayahIndex = index;
                 }
             });
-            
+
             if (ayahIndex >= 0) {
                 // Calculate which page this ayah is on
                 const targetPage = Math.floor(ayahIndex / itemsPerPage) + 1;
                 showPage(targetPage, false);
-                
+
                 // Highlight the ayah after a short delay
                 setTimeout(() => {
                     const ayahCard = document.getElementById(`ayah-${ayahNumber}`);
                     if (ayahCard) {
                         // Scroll to the ayah
                         ayahCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
+
                         // Add highlight effect
                         ayahCard.classList.add('shared-highlight');
-                        
+
                         // Remove highlight after a few seconds
                         setTimeout(() => {
                             ayahCard.classList.remove('shared-highlight');
@@ -2393,16 +3104,82 @@
             showPage(initialPage, false);
         }
     })();
-    
+
     // Translation visibility and ordering
-    (function() {
+    window.updateAllTranslations = function () {
+        const savedPrefs = JSON.parse(localStorage.getItem('translationPrefs') || '{}');
+        const savedOrders = JSON.parse(localStorage.getItem('translationOrders') || '{}');
+        const settings = JSON.parse(localStorage.getItem('surahSettings') || '{}');
+        const displayMode = settings.translationDisplay || 'both';
+
+        // Get all translation containers
+        const containers = document.querySelectorAll('.translations-container');
+
+        containers.forEach(container => {
+            const items = container.querySelectorAll('.translation-item');
+
+            // Collect all items with their order and visibility
+            const itemsArray = Array.from(items).map(item => {
+                const translationId = item.dataset.translationId;
+                const language = item.dataset.language;
+
+                // Determine visibility based on both mode and checkbox
+                let visible = true;
+
+                // 1. Check display mode filter
+                if (displayMode === 'arabic') {
+                    visible = false;
+                } else if (displayMode === 'bengali' && language === 'english') {
+                    visible = false;
+                } else if (displayMode === 'english' && language === 'bangla') {
+                    visible = false;
+                }
+
+                // 2. Check individual checkbox (marked) status
+                if (visible) {
+                    if (savedPrefs[translationId] !== undefined) {
+                        visible = savedPrefs[translationId];
+                    } else {
+                        // If no saved pref, check if it was checked by default in the checkbox
+                        const checkbox = document.querySelector(`.translation-checkbox[data-translation="${translationId}"]`);
+                        visible = checkbox ? checkbox.checked : false;
+                    }
+                }
+
+                return {
+                    element: item,
+                    translationId: translationId,
+                    language: language,
+                    order: savedOrders[translationId] !== undefined ? savedOrders[translationId] : (parseInt(item.dataset.order) || 999),
+                    visible: visible
+                };
+            });
+
+            // Sort by language first (bangla before english), then by order
+            itemsArray.sort((a, b) => {
+                const langOrder = { 'bangla': 0, 'english': 1 };
+                const langDiff = (langOrder[a.language] || 2) - (langOrder[b.language] || 2);
+                if (langDiff !== 0) return langDiff;
+                return a.order - b.order;
+            });
+
+            // Reorder elements in DOM and update visibility
+            itemsArray.forEach(item => {
+                item.element.style.display = item.visible ? 'block' : 'none';
+                container.appendChild(item.element);
+            });
+        });
+    };
+
+    // Initialize translation event listeners
+    (function () {
         const translationCheckboxes = document.querySelectorAll('.translation-checkbox');
         const translationOrderSelects = document.querySelectorAll('.translation-order-select');
-        
+
         // Load saved preferences
         const savedPrefs = JSON.parse(localStorage.getItem('translationPrefs') || '{}');
         const savedOrders = JSON.parse(localStorage.getItem('translationOrders') || '{}');
-        
+
         // Apply saved preferences for checkboxes
         translationCheckboxes.forEach(checkbox => {
             const translationType = checkbox.dataset.translation;
@@ -2410,7 +3187,7 @@
                 checkbox.checked = savedPrefs[translationType];
             }
         });
-        
+
         // Apply saved order preferences
         translationOrderSelects.forEach(select => {
             const translationType = select.dataset.translation;
@@ -2418,112 +3195,50 @@
                 select.value = savedOrders[translationType];
             }
         });
-        
-        // Initial update of visibility and order
-        updateAllTranslations();
-        
+
+        // Initial update
+        window.updateAllTranslations();
+
         // Handle checkbox changes
         translationCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
+            checkbox.addEventListener('change', function () {
                 const translationType = this.dataset.translation;
                 const isChecked = this.checked;
-                
-                // Save preference
+
+                const savedPrefs = JSON.parse(localStorage.getItem('translationPrefs') || '{}');
                 savedPrefs[translationType] = isChecked;
                 localStorage.setItem('translationPrefs', JSON.stringify(savedPrefs));
-                
-                // Update visibility and order
-                updateAllTranslations();
+
+                window.updateAllTranslations();
             });
         });
-        
+
         // Handle order changes
         translationOrderSelects.forEach(select => {
-            select.addEventListener('change', function() {
+            select.addEventListener('change', function () {
                 const translationType = this.dataset.translation;
                 const newOrder = parseInt(this.value);
-                
-                // Save order preference
+
+                const savedOrders = JSON.parse(localStorage.getItem('translationOrders') || '{}');
                 savedOrders[translationType] = newOrder;
                 localStorage.setItem('translationOrders', JSON.stringify(savedOrders));
-                
-                // Update visibility and order
-                updateAllTranslations();
+
+                window.updateAllTranslations();
             });
         });
-        
-        function getTranslationOrder(translationId) {
-            // First check saved orders
-            if (savedOrders[translationId] !== undefined) {
-                return savedOrders[translationId];
-            }
-            // Then check the select element
-            const select = document.querySelector(`.translation-order-select[data-translation="${translationId}"]`);
-            return select ? parseInt(select.value) : 999;
-        }
-        
-        function isTranslationVisible(translationId) {
-            // First check saved preferences
-            if (savedPrefs[translationId] !== undefined) {
-                return savedPrefs[translationId];
-            }
-            // Then check the checkbox
-            const checkbox = document.querySelector(`.translation-checkbox[data-translation="${translationId}"]`);
-            return checkbox ? checkbox.checked : false;
-        }
-        
-        function updateAllTranslations() {
-            // Get all translation containers
-            const containers = document.querySelectorAll('.translations-container');
-            
-            containers.forEach(container => {
-                const items = container.querySelectorAll('.translation-item');
-                
-                // Collect all items with their order and visibility
-                const itemsArray = Array.from(items).map(item => {
-                    const translationId = item.dataset.translationId;
-                    const language = item.dataset.language;
-                    return {
-                        element: item,
-                        translationId: translationId,
-                        language: language,
-                        order: getTranslationOrder(translationId),
-                        visible: isTranslationVisible(translationId)
-                    };
-                });
-                
-                // Sort by language first (bangla before english), then by order
-                itemsArray.sort((a, b) => {
-                    // First sort by language (bangla = 0, english = 1)
-                    const langOrder = { 'bangla': 0, 'english': 1 };
-                    const langDiff = (langOrder[a.language] || 2) - (langOrder[b.language] || 2);
-                    if (langDiff !== 0) return langDiff;
-                    // Then sort by order within same language
-                    return a.order - b.order;
-                });
-                
-                // Reorder elements in DOM and update visibility
-                itemsArray.forEach(item => {
-                    // Update visibility
-                    item.element.style.display = item.visible ? 'block' : 'none';
-                    // Append to container to reorder
-                    container.appendChild(item.element);
-                });
-            });
-        }
     })();
-    
+
     // ============================================
     // WORD-BY-WORD FUNCTIONALITY
     // ============================================
-    (function() {
+    (function () {
         const wordByWordToggle = document.getElementById('wordByWordToggle');
         const wordAudio = new Audio();
         let wordByWordEnabled = true; // Default to true (matches UI default)
         let wordDataCache = {};
         let currentPlayingWord = null;
         let hintShown = false;
-        
+
         // Load saved preference (default to true if not set)
         const savedWordByWord = localStorage.getItem('wordByWordEnabled');
         if (savedWordByWord === null) {
@@ -2540,27 +3255,59 @@
             wordByWordToggle.checked = false;
             wordByWordEnabled = false;
         }
-        
+
         // Toggle handler
-        wordByWordToggle.addEventListener('change', function() {
+        wordByWordToggle.addEventListener('change', function () {
             wordByWordEnabled = this.checked;
             localStorage.setItem('wordByWordEnabled', wordByWordEnabled);
-            
+
             if (wordByWordEnabled) {
                 initWordByWord();
             } else {
                 disableWordByWord();
             }
         });
-        
-        // Initialize word-by-word for all visible ayahs
+
+        // Initialize word-by-word for all visible ayahs (BATCH PARALLEL FETCH)
         function initWordByWord() {
             const ayahItems = document.querySelectorAll('.ayah-item:not(.hidden)');
+            const toFetch = [];
+
+            // Restore from sessionStorage first for instant render
             ayahItems.forEach(ayahItem => {
                 const ayahNumber = ayahItem.dataset.ayahNumber;
-                loadWordByWordData(surahId, ayahNumber);
+                const cacheKey = `${surahId}:${ayahNumber}`;
+                const arabicEl = document.getElementById(`arabic-${ayahNumber}`);
+                if (!arabicEl) return;
+                if (!arabicEl.dataset.originalText) arabicEl.dataset.originalText = arabicEl.innerHTML;
+
+                // Check memory cache
+                if (wordDataCache[cacheKey]) {
+                    renderWordByWord(arabicEl, wordDataCache[cacheKey], ayahNumber);
+                    return;
+                }
+
+                // Check sessionStorage cache
+                try {
+                    const cached = sessionStorage.getItem(`wbw_${cacheKey}`);
+                    if (cached) {
+                        const words = JSON.parse(cached);
+                        wordDataCache[cacheKey] = words;
+                        renderWordByWord(arabicEl, words, ayahNumber);
+                        return;
+                    }
+                } catch(e) {}
+
+                // Need to fetch
+                arabicEl.classList.add('loading-words');
+                toFetch.push(ayahNumber);
             });
-            
+
+            // Batch fetch all uncached ayahs in parallel (max 6 concurrent)
+            if (toFetch.length > 0) {
+                batchFetchWords(toFetch);
+            }
+
             // Show hint on first enable
             if (!hintShown && !localStorage.getItem('wordHintShown')) {
                 showHint();
@@ -2568,7 +3315,7 @@
                 localStorage.setItem('wordHintShown', 'true');
             }
         }
-        
+
         // Disable word-by-word mode
         function disableWordByWord() {
             document.querySelectorAll('.arabic-text.word-by-word').forEach(el => {
@@ -2580,7 +3327,7 @@
                 }
             });
         }
-        
+
         // Show hint tooltip
         function showHint() {
             const hint = document.createElement('div');
@@ -2589,53 +3336,57 @@
             document.body.appendChild(hint);
             setTimeout(() => hint.remove(), 3000);
         }
-        
-        // Fetch word-by-word data from Quran.com API
-        async function loadWordByWordData(surahId, ayahNumber) {
-            const cacheKey = `${surahId}:${ayahNumber}`;
-            const arabicEl = document.getElementById(`arabic-${ayahNumber}`);
-            
-            if (!arabicEl) return;
-            
-            // Store original text
-            if (!arabicEl.dataset.originalText) {
-                arabicEl.dataset.originalText = arabicEl.innerHTML;
+
+        // Parallel batch fetch with concurrency limit
+        async function batchFetchWords(ayahNumbers) {
+            const CONCURRENCY = 6;
+            const chunks = [];
+            for (let i = 0; i < ayahNumbers.length; i += CONCURRENCY) {
+                chunks.push(ayahNumbers.slice(i, i + CONCURRENCY));
             }
-            
-            // Check cache
+
+            for (const chunk of chunks) {
+                await Promise.allSettled(chunk.map(ayahNumber => loadWordByWordData(surahId, ayahNumber)));
+            }
+        }
+
+        // Fetch word-by-word data from Quran.com API (single ayah)
+        async function loadWordByWordData(sid, ayahNumber) {
+            const cacheKey = `${sid}:${ayahNumber}`;
+            const arabicEl = document.getElementById(`arabic-${ayahNumber}`);
+            if (!arabicEl) return;
+            if (!arabicEl.dataset.originalText) arabicEl.dataset.originalText = arabicEl.innerHTML;
+
+            // Check memory cache
             if (wordDataCache[cacheKey]) {
                 renderWordByWord(arabicEl, wordDataCache[cacheKey], ayahNumber);
                 return;
             }
-            
-            arabicEl.classList.add('loading-words');
-            
+
             try {
-                // Fetch from Quran.com API (word-by-word with translations)
                 const response = await fetch(
-                    `https://api.quran.com/api/v4/verses/by_key/${surahId}:${ayahNumber}?language=bn&words=true&word_fields=text_uthmani,text_indopak&translations=97`
+                    `https://api.quran.com/api/v4/verses/by_key/${sid}:${ayahNumber}?language=bn&words=true&word_fields=text_uthmani,text_indopak&translations=97`
                 );
-                
                 if (!response.ok) throw new Error('Failed to fetch word data');
-                
                 const data = await response.json();
                 const words = data.verse?.words || [];
-                
-                // Cache the data
+
+                // Cache in memory + sessionStorage
                 wordDataCache[cacheKey] = words;
-                
+                try { sessionStorage.setItem(`wbw_${cacheKey}`, JSON.stringify(words)); } catch(e) {}
+
                 renderWordByWord(arabicEl, words, ayahNumber);
             } catch (error) {
                 console.error('Word-by-word fetch error:', error);
                 arabicEl.classList.remove('loading-words');
             }
         }
-        
+
         // Render word-by-word view
         function renderWordByWord(container, words, ayahNumber) {
             container.classList.remove('loading-words');
             container.classList.add('word-by-word');
-            
+
             // Filter out end markers and build word elements
             const wordElements = words
                 .filter(word => word.char_type_name === 'word') // Only actual words, not end markers
@@ -2652,18 +3403,12 @@
                               data-word="${wordPosition}"
                               data-arabic="${arabicText}"
                               data-bangla="${banglaTranslation}">
-                            <span class="word-number badge bg-success">${wordPosition}</span>
                             <span class="word-arabic">${arabicText}</span>
                             <span class="word-bangla">${banglaTranslation}</span>
-                            <span class="word-actions">
-                                <button class="word-search-btn" title="কুরআনে এই শব্দ খুঁজুন" data-word="${encodeURIComponent(arabicText)}">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </span>
                         </span>
                     `;
                 }).join('');
-            
+
             // Add the ayah end marker
             const endMarker = words.find(w => w.char_type_name === 'end');
             if (endMarker) {
@@ -2672,58 +3417,62 @@
             } else {
                 container.innerHTML = wordElements;
             }
-            
+
             // Add event listeners to words
             container.querySelectorAll('.quran-word:not(.end-marker)').forEach(wordEl => {
+                // Single click - open word analysis modal
+                let clickTimer = null;
+                wordEl.addEventListener('click', function (e) {
+                    if (e.target.closest('.word-search-btn')) return;
+                    if (clickTimer) { clearTimeout(clickTimer); clickTimer = null; return; }
+                    clickTimer = setTimeout(() => {
+                        clickTimer = null;
+                        openWordModal(this);
+                    }, 250);
+                });
+
                 // Double-click for audio
                 wordEl.addEventListener('dblclick', playWordAudio);
-                
-                // Touch support (long press)
+
+                // Touch support (long press for audio, tap for modal)
                 let touchTimer;
+                let touchMoved = false;
                 wordEl.addEventListener('touchstart', (e) => {
+                    touchMoved = false;
                     touchTimer = setTimeout(() => {
                         playWordAudio.call(wordEl, e);
                     }, 500);
                 });
                 wordEl.addEventListener('touchend', () => clearTimeout(touchTimer));
-                wordEl.addEventListener('touchmove', () => clearTimeout(touchTimer));
-                
-                // Search button click
-                const searchBtn = wordEl.querySelector('.word-search-btn');
-                if (searchBtn) {
-                    searchBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const wordToSearch = decodeURIComponent(this.dataset.word);
-                        window.location.href = `/search/word?q=${encodeURIComponent(wordToSearch)}`;
-                    });
-                }
+                wordEl.addEventListener('touchmove', () => { touchMoved = true; clearTimeout(touchTimer); });
+
             });
         }
-        
+
         // Play word audio
         function playWordAudio(e) {
             e.preventDefault();
-            
+
             const wordEl = this;
             const surah = wordEl.dataset.surah;
             const ayah = wordEl.dataset.ayah;
             const wordNum = wordEl.dataset.word;
-            
+
             // Generate audio URL (Quran.com CDN format)
             const paddedSurah = String(surah).padStart(3, '0');
             const paddedAyah = String(ayah).padStart(3, '0');
             const paddedWord = String(wordNum).padStart(3, '0');
             const audioUrl = `https://audio.qurancdn.com/wbw/${paddedSurah}_${paddedAyah}_${paddedWord}.mp3`;
-            
+
             // Remove playing state from previous word
             if (currentPlayingWord) {
                 currentPlayingWord.classList.remove('playing');
             }
-            
+
             // Add playing state
             wordEl.classList.add('playing');
             currentPlayingWord = wordEl;
-            
+
             // Play audio
             wordAudio.src = audioUrl;
             wordAudio.play().catch(err => {
@@ -2731,7 +3480,7 @@
                 wordEl.classList.remove('playing');
             });
         }
-        
+
         // Handle audio end
         wordAudio.addEventListener('ended', () => {
             if (currentPlayingWord) {
@@ -2739,7 +3488,7 @@
                 currentPlayingWord = null;
             }
         });
-        
+
         // Handle audio error
         wordAudio.addEventListener('error', () => {
             if (currentPlayingWord) {
@@ -2747,7 +3496,7 @@
                 currentPlayingWord = null;
             }
         });
-        
+
         // Re-initialize when pagination changes
         const observer = new MutationObserver((mutations) => {
             if (wordByWordEnabled) {
@@ -2772,81 +3521,279 @@
                 });
             }
         });
-        
+
         const ayahsContainer = document.getElementById('ayahsContainer');
         if (ayahsContainer) {
-            observer.observe(ayahsContainer, { 
-                childList: true, 
+            observer.observe(ayahsContainer, {
+                childList: true,
                 subtree: true,
                 attributes: true,
                 attributeFilter: ['class']
             });
         }
     })();
-    
+
+    // ============================================
+    // WORD ANALYSIS MODAL FUNCTIONALITY
+    // ============================================
+    (function () {
+        const modal = document.getElementById('wordModal');
+        const modalBody = document.getElementById('wmBody');
+        const closeBtn = document.getElementById('wmClose');
+        const modalAudio = new Audio();
+        let isModalAudioPlaying = false;
+
+        // Close modal
+        function closeWordModal() {
+            modal.style.display = 'none';
+            modalAudio.pause();
+            isModalAudioPlaying = false;
+            document.body.style.overflow = '';
+        }
+        closeBtn.addEventListener('click', closeWordModal);
+        modal.addEventListener('click', function (e) { if (e.target === modal) closeWordModal(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.style.display !== 'none') closeWordModal(); });
+
+        // Open modal
+        window.openWordModal = function (wordEl) {
+            const arabicWord = wordEl.dataset.arabic || '';
+            const bangla = wordEl.dataset.bangla || '';
+            const wordPos = wordEl.dataset.word;
+            const ayahNum = wordEl.dataset.ayah;
+            const surah = wordEl.dataset.surah;
+
+            // Audio URL
+            const pS = String(surah).padStart(3, '0');
+            const pA = String(ayahNum).padStart(3, '0');
+            const pW = String(wordPos).padStart(3, '0');
+            const audioUrl = `https://audio.qurancdn.com/wbw/${pS}_${pA}_${pW}.mp3`;
+
+            document.body.style.overflow = 'hidden';
+            modal.style.display = 'flex';
+
+            // Render initial content with cached data
+            modalBody.innerHTML = `
+                <div class="wm-hero">
+                    <span class="wm-hero-arabic">${arabicWord}</span>
+                    <button class="wm-hero-audio" id="wmPlayAudio" title="Play pronunciation">
+                        <i class="bi bi-volume-up-fill"></i>
+                    </button>
+                </div>
+                <div class="wm-info-grid">
+                    <div class="wm-info-item">
+                        <span class="wm-info-label">উচ্চারণ (Transliteration)</span>
+                        <span class="wm-info-value" id="wmTranslit"><span class="spinner-border spinner-border-sm text-success"></span></span>
+                    </div>
+                    <div class="wm-info-item">
+                        <span class="wm-info-label">বাংলা অর্থ</span>
+                        <span class="wm-info-value">${bangla || '—'}</span>
+                    </div>
+                    <div class="wm-info-item">
+                        <span class="wm-info-label">English Meaning</span>
+                        <span class="wm-info-value" id="wmEnglish"><span class="spinner-border spinner-border-sm text-success"></span></span>
+                    </div>
+                    <div class="wm-info-item">
+                        <span class="wm-info-label">অবস্থান (Position)</span>
+                        <span class="wm-info-value">Surah ${surah}, Ayah ${ayahNum}, Word ${wordPos}</span>
+                    </div>
+                </div>
+                <div class="wm-section">
+                    <div class="wm-section-title"><i class="bi bi-diagram-3"></i> ব্যাকরণ বিশ্লেষণ (Grammar)</div>
+                    <div class="wm-morph-grid" id="wmMorphGrid">
+                        <div class="wm-morph-chip">
+                            <span class="label">মূল ধাতু (Root)</span>
+                            <a href="#" id="wmRootLink" class="value text-success text-decoration-none" style="font-weight: 700;">...</a>
+                        </div>
+                        <div class="wm-morph-chip"><span class="label">প্রকার (Type)</span><span class="value" id="wmType">...</span></div>
+                        <div class="wm-morph-chip"><span class="label">রূপ (Form)</span><span class="value" id="wmForm">...</span></div>
+                        <div class="wm-morph-chip"><span class="label">কাল (Tense)</span><span class="value" id="wmTense">...</span></div>
+                        <div class="wm-morph-chip"><span class="label">লিঙ্গ (Gender)</span><span class="value" id="wmGender">...</span></div>
+                        <div class="wm-morph-chip"><span class="label">বচন (Number)</span><span class="value" id="wmNumber">...</span></div>
+                    </div>
+                </div>
+                <div class="wm-freq">
+                    <i class="bi bi-graph-up text-success"></i>
+                    <span>কুরআনে <span class="wm-freq-num" id="wmFreqCount"><span class="spinner-border spinner-border-sm"></span></span> বার</span>
+                </div>
+                <div class="wm-actions">
+                    <a href="/search/word?q=${encodeURIComponent(arabicWord)}" class="wm-action-btn" id="wmRootBtn">
+                        <i class="bi bi-diagram-3-fill"></i> মূল ধাতু অনুসন্ধান
+                    </a>
+                    <a href="/search/word?q=${encodeURIComponent(arabicWord)}" class="wm-action-btn">
+                        <i class="bi bi-search"></i> কুরআনে খুঁজুন
+                    </a>
+                </div>
+            `;
+
+            // Audio play button
+            document.getElementById('wmPlayAudio').addEventListener('click', function () {
+                if (isModalAudioPlaying) { modalAudio.pause(); isModalAudioPlaying = false; this.classList.remove('playing'); return; }
+                modalAudio.src = audioUrl;
+                modalAudio.play().catch(e => console.error('Audio error:', e));
+                isModalAudioPlaying = true;
+                this.classList.add('playing');
+            });
+            modalAudio.onended = () => { isModalAudioPlaying = false; const b = document.getElementById('wmPlayAudio'); if (b) b.classList.remove('playing'); };
+
+            // Fetch enriched data (English meaning + transliteration)
+            fetchEnrichedData(surah, ayahNum, wordPos, arabicWord);
+        };
+
+        async function fetchEnrichedData(surahId, ayahNum, wordPos, arabicWord) {
+            try {
+                // Fetch English word data
+                const resp = await fetch(`https://api.quran.com/api/v4/verses/by_key/${surahId}:${ayahNum}?language=en&words=true&word_fields=text_uthmani`);
+                if (resp.ok) {
+                    const data = await resp.json();
+                    const words = (data.verse?.words || []).filter(w => w.char_type_name === 'word');
+                    const word = words[parseInt(wordPos) - 1];
+                    if (word) {
+                        const el = document.getElementById('wmEnglish');
+                        if (el) el.textContent = word.translation?.text || '—';
+                        const tl = document.getElementById('wmTranslit');
+                        if (tl) tl.textContent = word.transliteration?.text || '—';
+                    }
+                }
+            } catch (e) { console.error('Enriched data error:', e); }
+
+            // Analyze morphology (basic heuristic)
+            analyzeMorphology(arabicWord);
+
+            // Fetch frequency
+            fetchFrequency(arabicWord);
+        }
+
+        function analyzeMorphology(word) {
+            const stripped = word.replace(/[\u064B-\u065F\u0670]/g, '');
+            const len = stripped.length;
+
+            // Basic Arabic morphology heuristics
+            let type = 'اسم (Noun)', form = '—', tense = '—', gender = '—', number = 'مفرد (Singular)';
+            let root = stripped.length >= 3 ? stripped.slice(0, 1) + ' ' + stripped.slice(1, 2) + ' ' + stripped.slice(2, 3) : stripped;
+
+            // Verb detection patterns
+            const prefixes = ['ي', 'ت', 'أ', 'ن', 'س'];
+            const pastSuffixes = ['ت', 'نا', 'وا', 'تم', 'تن'];
+            
+            // Heuristic Noun markers
+            const isDefinitelyNoun = stripped.startsWith('ال') || word.match(/[\u064B-\u064D]/) || stripped.endsWith('ة');
+            
+            const isVerb = !isDefinitelyNoun && (
+                prefixes.some(p => stripped.startsWith(p)) || 
+                pastSuffixes.some(s => stripped.endsWith(s)) ||
+                stripped.length === 3 // Many 3-letter words are past tense verbs
+            );
+
+            if (isVerb) { 
+                type = 'فعل (Verb)'; 
+                tense = prefixes.some(p => stripped.startsWith(p) && stripped.length > 3) ? 'مضارع (Present)' : 'ماضي (Past)'; 
+                if (stripped.length === 3) form = 'Form I (1)';
+                else if (stripped.length === 4) form = 'Form II-IV (2-4)';
+                else if (stripped.length >= 5) form = 'Form V-X (5-10)';
+            } else {
+                tense = 'N/A';
+                form = 'N/A';
+            }
+
+            // Plural patterns
+            if (word.endsWith('ون') || word.endsWith('ين')) { number = 'جمع مذكر (M. Plural)'; gender = 'مذكر (Masculine)'; }
+            else if (word.endsWith('ات')) { number = 'جمع مؤنث (F. Plural)'; gender = 'مؤنث (Feminine)'; }
+            else if (word.endsWith('ان') || word.endsWith('ين')) { number = 'مثنى (Dual)'; }
+            else if (word.endsWith('ة') || word.endsWith('ها')) { gender = 'مؤنث (Feminine)'; }
+            else { gender = 'مذكر (Masculine)'; }
+
+            // Particles
+            const particles = ['في', 'من', 'إلى', 'على', 'عن', 'ب', 'ل', 'ك', 'و', 'ف', 'ثم', 'أو', 'لا', 'ما', 'إن', 'أن', 'لم', 'لن', 'قد', 'هل'];
+            if (particles.includes(stripped)) { type = 'حرف (Particle)'; root = '—'; form = '—'; tense = '—'; gender = '—'; number = '—'; }
+
+            const el = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+            el('wmRootLink', root); el('wmType', type); el('wmForm', form); el('wmTense', tense); el('wmGender', gender); el('wmNumber', number);
+
+            // Update root search links
+            const rootBtn = document.getElementById('wmRootBtn');
+            const rootLink = document.getElementById('wmRootLink');
+            if (root !== '—') {
+                const rootQuery = root.replace(/\s+/g, '');
+                const searchUrl = `/search/word?q=${encodeURIComponent(rootQuery)}`;
+                if (rootBtn) rootBtn.href = searchUrl;
+                if (rootLink) rootLink.href = searchUrl;
+            }
+        }
+
+        async function fetchFrequency(word) {
+            try {
+                const resp = await fetch(`https://api.quran.com/api/v4/search?q=${encodeURIComponent(word)}&language=en&size=1`);
+                if (resp.ok) {
+                    const data = await resp.json();
+                    const total = data.search?.total_results || '—';
+                    const el = document.getElementById('wmFreqCount');
+                    if (el) el.textContent = total;
+                }
+            } catch (e) { const el = document.getElementById('wmFreqCount'); if (el) el.textContent = '—'; }
+        }
+    })();
+
     // ============================================
     // SETTINGS PANEL FUNCTIONALITY
     // ============================================
-    (function() {
+    (function () {
         const settingsPanel = document.getElementById('settingsPanel');
         const settingsOverlay = document.getElementById('settingsPanelOverlay');
         const settingsToggle = document.getElementById('settingsToggle');
         const settingsToggleMobile = document.getElementById('settingsToggleMobile');
         const settingsPanelClose = document.getElementById('settingsPanelClose');
-        
+
         // Default settings
         const DEFAULT_SETTINGS = {
             quranFont: 'traditional',
             arabicTextSize: 100,
+            translationTextSize: 100,
             translationDisplay: 'both'
         };
-        
+
         // Load settings from localStorage
         function loadSettings() {
             const saved = localStorage.getItem('surahSettings');
             return saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
         }
-        
+
         // Save settings to localStorage
         function saveSettings(settings) {
             localStorage.setItem('surahSettings', JSON.stringify(settings));
         }
-        
+
         // Initialize settings on page load
         function initializeSettings() {
             const settings = loadSettings();
-            
+
             // Set font
-            const fontRadio = document.querySelector(`input[name="quranFont"][value="${settings.quranFont}"]`);
-            if (fontRadio) {
-                fontRadio.checked = true;
-                applyFont(settings.quranFont);
+            const fontSelect = document.querySelector('.quran-font-select');
+            if (fontSelect) {
+                fontSelect.value = settings.quranFont || 'traditional';
+                applyFont(fontSelect.value);
             }
-            
+
             // Set text size
-            updateTextSize(settings.arabicTextSize);
-            
-            // Set translation display
-            const displayRadio = document.querySelector(`input[name="translationDisplay"][value="${settings.translationDisplay}"]`);
-            if (displayRadio) {
-                displayRadio.checked = true;
-                applyTranslationDisplay(settings.translationDisplay);
-            }
+            updateTextSize(settings.arabicTextSize || 100);
+            updateTranslationTextSize(settings.translationTextSize || 100);
+
+            // Apply translation display
+            applyTranslationDisplay(settings.translationDisplay);
         }
-        
+
         // Apply font to Arabic text
         function applyFont(fontName) {
             const body = document.body;
             const fontClass = `arabic-font-${fontName}`;
-            
+
             // Remove existing font classes
             body.classList.remove('arabic-font-traditional', 'arabic-font-uthmani', 'arabic-font-indopak', 'arabic-font-tajweed');
-            
+
             // Add new font class
             if (fontName !== 'traditional') {
                 body.classList.add(fontClass);
             }
-            
+
             // Update CSS variable
             const fontMap = {
                 'traditional': "'Traditional Arabic', 'Scheherazade', serif",
@@ -2854,25 +3801,25 @@
                 'indopak': "'IndoPak', 'Traditional Arabic', serif",
                 'tajweed': "'Tajweed', 'Traditional Arabic', serif"
             };
-            
+
             document.documentElement.style.setProperty('--arabic-font', fontMap[fontName] || fontMap['traditional']);
-            
+
             // Save setting
             const settings = loadSettings();
             settings.quranFont = fontName;
             saveSettings(settings);
         }
-        
+
         // Apply text size
         function updateTextSize(size) {
             document.documentElement.style.setProperty('--arabic-text-size', size / 100 * 1.8 + 'rem');
-            
+
             // Update size display
             const sizeDisplay = document.getElementById('sizeDisplay');
             if (sizeDisplay) {
                 sizeDisplay.textContent = size + '%';
             }
-            
+
             // Update active preset button
             document.querySelectorAll('.size-preset').forEach(btn => {
                 btn.classList.remove('active');
@@ -2880,118 +3827,130 @@
                     btn.classList.add('active');
                 }
             });
-            
+
             // Save setting
             const settings = loadSettings();
             settings.arabicTextSize = size;
             saveSettings(settings);
         }
-        
+
+        function updateTranslationTextSize(size) {
+            document.documentElement.style.setProperty('--translation-text-size', size / 100 * 1.1 + 'rem');
+
+            // Update size display
+            const sizeDisplay = document.getElementById('translationSizeDisplay');
+            if (sizeDisplay) {
+                sizeDisplay.textContent = size + '%';
+            }
+
+            // Save setting
+            const settings = loadSettings();
+            settings.translationTextSize = size;
+            saveSettings(settings);
+        }
+
         // Apply translation display option
         function applyTranslationDisplay(displayMode) {
-            const translations = document.querySelectorAll('.translation-item');
-            
-            translations.forEach(translation => {
-                const language = translation.dataset.language;
-                
-                if (displayMode === 'both') {
-                    translation.style.display = '';
-                } else if (displayMode === 'arabic') {
-                    translation.style.display = 'none';
-                } else if (displayMode === 'bengali' && language === 'english') {
-                    translation.style.display = 'none';
-                } else if (displayMode === 'english' && language === 'bangla') {
-                    translation.style.display = 'none';
-                } else {
-                    translation.style.display = '';
-                }
-            });
-            
             // Save setting
             const settings = loadSettings();
             settings.translationDisplay = displayMode;
             saveSettings(settings);
+
+            // Use the global update function to handle visibility
+            if (window.updateAllTranslations) {
+                window.updateAllTranslations();
+            }
         }
-        
+
         // Toggle settings panel
         function toggleSettingsPanel() {
             settingsPanel.classList.toggle('active');
             settingsOverlay.classList.toggle('active');
         }
-        
+
         // Close settings panel
         function closeSettingsPanel() {
             settingsPanel.classList.remove('active');
             settingsOverlay.classList.remove('active');
         }
-        
+
         // Event listeners for opening settings
         if (settingsToggle) {
             settingsToggle.addEventListener('click', toggleSettingsPanel);
         }
         if (settingsToggleMobile) {
-            settingsToggleMobile.addEventListener('click', function() {
+            settingsToggleMobile.addEventListener('click', function () {
                 toggleSettingsPanel();
             });
         }
-        
+
         // Close button
         if (settingsPanelClose) {
             settingsPanelClose.addEventListener('click', closeSettingsPanel);
         }
-        
+
         // Close on overlay click
         if (settingsOverlay) {
             settingsOverlay.addEventListener('click', closeSettingsPanel);
         }
-        
+
         // Close on escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeSettingsPanel();
             }
         });
-        
+
         // Font selection
-        document.querySelectorAll('.quran-font-radio').forEach(radio => {
-            radio.addEventListener('change', function() {
-                applyFont(this.value);
-            });
+        document.querySelector('.quran-font-select')?.addEventListener('change', function () {
+            applyFont(this.value);
         });
-        
+
         // Text size controls
-        document.getElementById('increaseSize')?.addEventListener('click', function() {
+        document.getElementById('increaseSize')?.addEventListener('click', function () {
             const settings = loadSettings();
             let newSize = Math.min(settings.arabicTextSize + 10, 200);
             updateTextSize(newSize);
         });
-        
-        document.getElementById('decreaseSize')?.addEventListener('click', function() {
+
+        document.getElementById('decreaseSize')?.addEventListener('click', function () {
             const settings = loadSettings();
             let newSize = Math.max(settings.arabicTextSize - 10, 50);
             updateTextSize(newSize);
         });
-        
+
+        document.getElementById('increaseTranslationSize')?.addEventListener('click', function () {
+            const settings = loadSettings();
+            let newSize = Math.min((settings.translationTextSize || 100) + 10, 200);
+            updateTranslationTextSize(newSize);
+        });
+
+        document.getElementById('decreaseTranslationSize')?.addEventListener('click', function () {
+            const settings = loadSettings();
+            let newSize = Math.max((settings.translationTextSize || 100) - 10, 50);
+            updateTranslationTextSize(newSize);
+        });
+
         // Size preset buttons
         document.querySelectorAll('.size-preset').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 updateTextSize(parseInt(this.dataset.size));
             });
         });
-        
+
         // Translation display options
         document.querySelectorAll('.translation-display-radio').forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 applyTranslationDisplay(this.value);
             });
         });
-        
+
         // Translation selection checkboxes (sync with main card)
         document.querySelectorAll('.settings-body .translation-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
+            checkbox.addEventListener('change', function () {
                 const translationId = this.dataset.translation;
                 const isChecked = this.checked;
-                
+
                 // Sync with main card checkbox if it exists
                 const mainCheckbox = document.querySelector(`.translation-checkbox[data-translation="${translationId}"]:not(.settings-body .translation-checkbox)`);
                 if (mainCheckbox) {
@@ -3000,13 +3959,13 @@
                 }
             });
         });
-        
+
         // Also sync main card checkboxes to settings panel
         document.querySelectorAll('.translation-checkbox:not(.settings-body .translation-checkbox)').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
+            checkbox.addEventListener('change', function () {
                 const translationId = this.dataset.translation;
                 const isChecked = this.checked;
-                
+
                 // Sync with settings checkbox
                 const settingsCheckbox = document.querySelector(`.settings-body .translation-checkbox[data-translation="${translationId}"]`);
                 if (settingsCheckbox) {
@@ -3014,29 +3973,128 @@
                 }
             });
         });
-        
+
         // Reset to default
-        document.getElementById('resetSettings')?.addEventListener('click', function() {
+        document.getElementById('resetSettings')?.addEventListener('click', function () {
             if (confirm('Reset all settings to default?')) {
                 localStorage.removeItem('surahSettings');
-                
+
                 // Reset form
                 document.querySelector('input[name="quranFont"][value="traditional"]').checked = true;
                 document.querySelector('input[name="translationDisplay"][value="both"]').checked = true;
-                
+
                 // Apply defaults
                 applyFont('traditional');
                 updateTextSize(100);
                 applyTranslationDisplay('both');
-                
+
                 // Reload translations from main card
                 document.querySelectorAll('.translation-checkbox:not(.settings-body .translation-checkbox)').forEach(checkbox => {
                     checkbox.dispatchEvent(new Event('change'));
                 });
             }
         });
-        
+
         // Initialize on load
         initializeSettings();
+    })();
+</script>
+
+<script>
+    // ============================================
+    // SIDEBAR TOGGLE FUNCTIONALITY
+    // ============================================
+    (function() {
+        // Left sidebar
+        const sidebar = document.getElementById('surahSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarToggle = document.getElementById('sidebarToggleBtn');
+        const sidebarClose = document.getElementById('closeSidebar');
+
+        function openSidebar() { sidebar?.classList.add('open'); sidebarOverlay?.classList.add('open'); }
+        function closeSidebar() { sidebar?.classList.remove('open'); sidebarOverlay?.classList.remove('open'); }
+
+        sidebarToggle?.addEventListener('click', openSidebar);
+        sidebarClose?.addEventListener('click', closeSidebar);
+        sidebarOverlay?.addEventListener('click', closeSidebar);
+
+        // Right sidebar (Quick Settings)
+        const qsSidebar = document.getElementById('quickSettingsSidebar');
+        const qsOverlay = document.getElementById('qsOverlay');
+        const qsToggle = document.getElementById('qsToggleBtn');
+        const qsClose = document.getElementById('closeQuickSettings');
+
+        function openQS() { qsSidebar?.classList.add('open'); qsOverlay?.classList.add('open'); }
+        function closeQS() { qsSidebar?.classList.remove('open'); qsOverlay?.classList.remove('open'); }
+
+        qsToggle?.addEventListener('click', openQS);
+        qsClose?.addEventListener('click', closeQS);
+        qsOverlay?.addEventListener('click', closeQS);
+
+        // Surah search filter
+        const searchInput = document.getElementById('surahSearchInput');
+        const navList = document.getElementById('surahNavList');
+        if (searchInput && navList) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                const items = navList.querySelectorAll('.surah-nav-item');
+                items.forEach(item => {
+                    const name = item.dataset.name || '';
+                    const bangla = item.dataset.bangla || '';
+                    const id = item.dataset.id || '';
+                    const match = !query || name.includes(query) || bangla.includes(query) || id === query;
+                    item.style.display = match ? '' : 'none';
+                });
+            });
+        }
+
+        // Scroll active surah into view
+        setTimeout(() => {
+            const activeItem = navList?.querySelector('.surah-nav-item.active');
+            if (activeItem) {
+                activeItem.scrollIntoView({ block: 'center', behavior: 'instant' });
+            }
+        }, 100);
+
+        // Auto Scroll Logic
+        const autoScrollBtn = document.getElementById('autoScrollBtn');
+        const scrollContainer = document.querySelector('.surah-main-content');
+        let autoScrollInterval;
+        let isAutoScrolling = false;
+
+        if (autoScrollBtn && scrollContainer) {
+            autoScrollBtn.addEventListener('click', function() {
+                isAutoScrolling = !isAutoScrolling;
+                if (isAutoScrolling) {
+                    this.innerHTML = '<i class="bi bi-pause-fill me-1"></i> Pause Scroll';
+                    this.classList.remove('btn-outline-success');
+                    this.classList.add('btn-success');
+                    autoScrollInterval = setInterval(() => {
+                        scrollContainer.scrollBy(0, 1);
+                        // Stop if reached bottom
+                        if ((scrollContainer.clientHeight + scrollContainer.scrollTop) >= scrollContainer.scrollHeight - 1) {
+                            clearInterval(autoScrollInterval);
+                            isAutoScrolling = false;
+                            this.innerHTML = '<i class="bi bi-chevron-double-down me-1"></i> Auto Scroll';
+                            this.classList.remove('btn-success');
+                            this.classList.add('btn-outline-success');
+                        }
+                    }, 40); // User friendly scrolling speed
+                } else {
+                    clearInterval(autoScrollInterval);
+                    this.innerHTML = '<i class="bi bi-chevron-double-down me-1"></i> Auto Scroll';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-outline-success');
+                }
+            });
+            
+            // Optional: Pause on user scroll
+            scrollContainer.addEventListener('wheel', () => {
+                if (isAutoScrolling) autoScrollBtn.click();
+            }, {passive: true});
+            scrollContainer.addEventListener('touchstart', () => {
+                if (isAutoScrolling) autoScrollBtn.click();
+            }, {passive: true});
+        }
     })();
 </script>

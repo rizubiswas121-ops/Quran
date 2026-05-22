@@ -1,42 +1,73 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <i class="bi bi-book-fill"></i> Tazqianofs
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <div class="logo-box">
+                <span class="logo-text">ত</span>
+            </div>
+            <div class="brand-text-container">
+                <span class="brand-main-text">TazqiaNafs</span>
+                <span class="brand-sub-text">আত্মশুদ্ধির পথে</span>
+            </div>
         </a>
-        
-        <!-- Mobile sidebar toggle button -->
-        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-label="Toggle navigation">
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"
+            aria-controls="mobileSidebar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
-        <!-- Desktop navbar collapse -->
-        <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <!-- Desktop Menu -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'surahs' ? 'active' : '' %>" href="/quran">
-                        <i class="bi bi-journal-text"></i> Surahs
+                    <a class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'quran' ? 'active' : '' %>"
+                        href="/quran">
+                        <i class="bi bi-book me-1"></i> আল-কুরআন
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'search' ? 'active' : '' %>" href="/search/word">
-                        <i class="bi bi-search"></i> শব্দ অনুসন্ধান
+                    <a class="nav-link" href="/hadith">
+                        <i class="bi bi-quote me-1"></i> হাদিস
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'bookmarks' ? 'active' : '' %>" href="/bookmarks">
-                        <i class="bi bi-bookmark-fill"></i> Bookmarks
+                    <a class="nav-link" href="/marriage">
+                        <i class="bi bi-heart me-1"></i> বিবাহ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog">
+                        <i class="bi bi-pencil-square me-1"></i> ব্লগ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/donate">
+                        <i class="bi bi-currency-dollar me-1"></i> দান
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/community">
+                        <i class="bi bi-people me-1"></i> কমিউনিটি
                     </a>
                 </li>
             </ul>
+
             <div class="d-flex align-items-center gap-2">
-                <button class="btn btn-outline-light btn-sm" id="darkModeToggle" title="Toggle Dark Mode">
+                <!-- Dark Mode Toggle -->
+                <button class="btn btn-outline-secondary border-0 btn-sm" id="darkModeToggle" title="Toggle Dark Mode">
                     <i class="bi bi-moon-fill"></i>
                 </button>
-                <% if (typeof activePage !== 'undefined' && activePage === 'surah') { %>
-                <button class="btn btn-outline-light btn-sm" id="settingsToggle" title="Display Settings">
-                    <i class="bi bi-sliders"></i>
+
+                <!-- Language Selector -->
+                <button class="btn btn-lang-selector d-flex align-items-center gap-1">
+                    <i class="bi bi-globe"></i>
+                    <span>EN</span>
                 </button>
-                <% } %>
+
+                <!-- Login/Register -->
+                <a href="/login" class="nav-link login-link">লগইন</a>
+                <a href="/register" class="btn btn-register">রেজিস্টার</a>
             </div>
         </div>
     </div>
@@ -44,40 +75,60 @@
 
 <!-- Mobile Sidebar (Offcanvas) -->
 <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
-    <div class="offcanvas-header bg-success text-white">
-        <h5 class="offcanvas-title" id="mobileSidebarLabel">
-            <i class="bi bi-book-fill"></i> Tazqianofs
+    <div class="offcanvas-header border-bottom">
+        <h5 class="offcanvas-title d-flex align-items-center gap-2" id="mobileSidebarLabel">
+            <div class="logo-box logo-box-sm">
+                <span class="logo-text">ত</span>
+            </div>
+            <span class="brand-main-text">TazqiaNafs</span>
         </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body sidebar-body">
+    <div class="offcanvas-body">
         <ul class="nav flex-column sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link sidebar-link <%= typeof activePage !== 'undefined' && activePage === 'surahs' ? 'active' : '' %>" href="/quran">
-                    <i class="bi bi-journal-text"></i> Surahs
+                <a class="nav-link sidebar-link <%= typeof activePage !== 'undefined' && activePage === 'quran' ? 'active' : '' %>"
+                    href="/quran">
+                    <i class="bi bi-book"></i> আল-কুরআন
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link sidebar-link <%= typeof activePage !== 'undefined' && activePage === 'search' ? 'active' : '' %>" href="/search/word">
-                    <i class="bi bi-search"></i> শব্দ অনুসন্ধান
+                <a class="nav-link sidebar-link" href="/hadith">
+                    <i class="bi bi-quote"></i> হাদিস
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link sidebar-link <%= typeof activePage !== 'undefined' && activePage === 'bookmarks' ? 'active' : '' %>" href="/bookmarks">
-                    <i class="bi bi-bookmark-fill"></i> Bookmarks
+                <a class="nav-link sidebar-link" href="/marriage">
+                    <i class="bi bi-heart"></i> বিবাহ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="/blog">
+                    <i class="bi bi-pencil-square"></i> ব্লগ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="/donate">
+                    <i class="bi bi-currency-dollar"></i> দান
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="/community">
+                    <i class="bi bi-people"></i> কমিউনিটি
                 </a>
             </li>
         </ul>
-        
-        <hr class="my-3">
-        
-        <div class="sidebar-footer">
-            <% if (typeof activePage !== 'undefined' && activePage === 'surah') { %>
-            <button class="btn btn-outline-success w-100 mb-2" id="settingsToggleMobile" title="Display Settings">
-                <i class="bi bi-sliders"></i> Settings
-            </button>
-            <% } %>
-            <button class="btn btn-outline-success w-100" id="darkModeToggleMobile" title="Toggle Dark Mode">
+
+        <hr class="my-4">
+
+        <div class="d-grid gap-2">
+            <a href="/login" class="btn btn-outline-success">লগইন</a>
+            <a href="/register" class="btn btn-success">রেজিস্টার</a>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-light w-100 d-flex align-items-center justify-content-center gap-2"
+                id="darkModeToggleMobile">
                 <i class="bi bi-moon-fill"></i> Dark Mode
             </button>
         </div>

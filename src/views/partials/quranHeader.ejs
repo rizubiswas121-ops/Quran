@@ -1,0 +1,107 @@
+<nav class="quran-header" id="quranHeader">
+  <div class="qh-inner">
+    <!-- Left: Nav toggle + Logo -->
+    <div class="qh-left">
+      <button class="qh-btn" id="quranNavToggle" title="Menu" aria-label="Open navigation">
+        <i class="bi bi-list"></i>
+      </button>
+      <a href="/" class="qh-logo">
+        <div class="logo-box logo-box-sm"><span class="logo-text">ত</span></div>
+        <span class="qh-brand">TazqiaNafs</span>
+      </a>
+    </div>
+
+    <!-- Center: Primary Nav -->
+    <div class="qh-center">
+      <a href="/" class="qh-nav-item" id="qhHome">
+        <i class="bi bi-house-door-fill"></i><span>Home</span>
+      </a>
+      <a href="#" class="qh-nav-item" id="qhNotification" data-bs-toggle="modal" data-bs-target="#notificationModal">
+        <i class="bi bi-bell-fill"></i><span>Notification</span>
+        <span class="qh-badge" id="notifBadge">3</span>
+      </a>
+      <a href="/bookmarks" class="qh-nav-item" id="qhLibrary">
+        <i class="bi bi-journal-bookmark-fill"></i><span>Library</span>
+      </a>
+      <a href="#" class="qh-nav-item" id="qhDailyAyah" data-bs-toggle="modal" data-bs-target="#dailyAyahModal">
+        <i class="bi bi-brightness-high-fill"></i><span>Daily Ayah</span>
+      </a>
+    </div>
+
+    <!-- Right: Search + Settings -->
+    <div class="qh-right">
+      <button class="qh-btn" id="quranSearchToggle" title="Search">
+        <i class="bi bi-search"></i>
+      </button>
+      <button class="qh-btn" id="quranSettingsToggle" title="Settings">
+        <i class="bi bi-gear-fill"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Collapsible Search Bar -->
+  <div class="qh-search-bar" id="qhSearchBar" style="display:none;">
+    <form action="/quran/search" method="GET" class="qh-search-form">
+      <i class="bi bi-search"></i>
+      <input type="text" name="q" placeholder="Search surah, ayah, topic..." autocomplete="off" id="qhSearchInput">
+      <button type="button" class="qh-search-close" id="qhSearchClose"><i class="bi bi-x-lg"></i></button>
+    </form>
+  </div>
+</nav>
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content notif-modal">
+      <div class="modal-header border-0">
+        <h5 class="modal-title"><i class="bi bi-bell-fill me-2 text-success"></i>Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="notif-item unread">
+          <div class="notif-icon"><i class="bi bi-book-half text-success"></i></div>
+          <div class="notif-content">
+            <p class="notif-text">New Tafsir available: <strong>Tafsir Ibn Kathir (Bangla)</strong></p>
+            <span class="notif-time">2 hours ago</span>
+          </div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-icon"><i class="bi bi-mic-fill text-primary"></i></div>
+          <div class="notif-content">
+            <p class="notif-text">New Qari added: <strong>Ayman Suwaid (Muallim)</strong></p>
+            <span class="notif-time">1 day ago</span>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon"><i class="bi bi-star-fill text-warning"></i></div>
+          <div class="notif-content">
+            <p class="notif-text">Daily reminder: Read Surah Al-Kahf on Friday</p>
+            <span class="notif-time">3 days ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Daily Ayah Modal -->
+<div class="modal fade" id="dailyAyahModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content daily-ayah-modal">
+      <div class="modal-header border-0 bg-success text-white">
+        <h5 class="modal-title"><i class="bi bi-brightness-high-fill me-2"></i>Daily Ayah</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center py-4" id="dailyAyahBody">
+        <p class="arabic-text mb-3" style="font-size:1.6rem;line-height:2.2" id="dailyArabic">Loading...</p>
+        <hr>
+        <p class="text-muted fs-5" id="dailyTranslation">Loading...</p>
+        <small class="text-success fw-bold" id="dailyRef">—</small>
+      </div>
+      <div class="modal-footer border-0 justify-content-center">
+        <button class="btn btn-outline-success btn-sm" id="shareDailyAyah"><i class="bi bi-share me-1"></i>Share</button>
+        <button class="btn btn-outline-primary btn-sm" id="copyDailyAyah"><i class="bi bi-clipboard me-1"></i>Copy</button>
+      </div>
+    </div>
+  </div>
+</div>

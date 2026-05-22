@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { getAllSurahs, getSurahById, searchSurahs } from '../services/quranApi.js';
+import { getAllSurahs, getSurahById, searchSurahs, searchByRootWord } from '../services/quranApi.js';
 import { ApiResponse, Surah } from '../types/index.js';
 
 const router = express.Router();
@@ -38,6 +38,24 @@ router.get('/search/:query', async (req: Request, res: Response) => {
       error: 'Search failed'
     };
     res.status(500).json(response);
+  }
+});
+
+// Root word search - must be before /:id route
+router.get('/root-search/:query', async (req: Request, res: Response) => {
+  try {
+    const query = decodeURIComponent(req.params.query);
+    const data = await searchByRootWord(query);
+    res.json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    console.error('Root search error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Root word search failed'
+    });
   }
 });
 

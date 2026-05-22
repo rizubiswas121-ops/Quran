@@ -1,62 +1,38 @@
-<div class="container-fluid px-md-4">
-    <!-- Search Header -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-success text-white">
-            <h3 class="mb-0">
-                <i class="bi bi-search"></i> শব্দ অনুসন্ধান - Arabic Word Search
-            </h3>
-        </div>
-        <div class="card-body">
-            <form action="/search/word" method="GET" class="mb-3">
-                <div class="row g-2 align-items-end">
-                    <div class="col-md-8 col-lg-6">
-                        <label for="searchWord" class="form-label">আরবি শব্দ লিখুন (Enter Arabic word)</label>
-                        <div class="input-group input-group-sm">
-                            <input type="text" 
-                                   class="form-control arabic-text text-end" 
-                                   id="searchWord" 
-                                   name="q" 
-                                   value="<%= query %>" 
-                                   placeholder="مثال: الله، الرحمن، الصلاة"
-                                   dir="rtl"
-                                   autofocus>
-                            <button class="btn btn-success btn-sm" type="submit">
-                                <i class="bi bi-search"></i> অনুসন্ধান
-                            </button>
-                        </div>
-                        <small class="text-muted">
-                            টিপস: আরবি শব্দ টাইপ করুন যেমন الله (আল্লাহ), الصلاة (সালাত), الجنة (জান্নাত)
-                        </small>
-                    </div>
-                    <% if (query) { %>
-                    <div class="col-auto">
-                        <a href="/search/word" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-x-circle"></i> Clear
-                        </a>
-                    </div>
-                    <% } %>
+<style>
+    body.page-search { padding-top: 0 !important; }
+    .search-sticky-bar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--bs-body-bg, #fff);
+        padding: 12px 0;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    [data-bs-theme="dark"] .search-sticky-bar { border-bottom-color: rgba(255,255,255,0.1); }
+</style>
+
+<!-- Sticky Search Bar -->
+<div class="search-sticky-bar">
+    <div class="container-fluid px-md-4">
+        <div class="d-flex align-items-center justify-content-center px-3" style="max-width: 800px; margin: 0 auto; gap: 15px;">
+            <button onclick="history.back()" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; flex-shrink: 0;" title="Go Back">
+                <i class="bi bi-arrow-left fs-5"></i>
+            </button>
+            <form action="/search/word" method="GET" class="flex-grow-1 mb-0" style="max-width: 600px;">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" name="q" placeholder="উদাহরণ: الله، الرحمن" value="<%= query %>" dir="rtl" autofocus>
+                    <button class="btn btn-success" type="submit">Search</button>
                 </div>
             </form>
-            
-            <!-- Popular/Common Words Quick Links -->
-            <div class="mt-3">
-                <small class="text-muted d-block mb-2">জনপ্রিয় শব্দ (Popular words):</small>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="/search/word?q=الله" class="btn btn-outline-success btn-sm">الله</a>
-                    <a href="/search/word?q=الرحمن" class="btn btn-outline-success btn-sm">الرحمن</a>
-                    <a href="/search/word?q=الصلاة" class="btn btn-outline-success btn-sm">الصلاة</a>
-                    <a href="/search/word?q=الجنة" class="btn btn-outline-success btn-sm">الجنة</a>
-                    <a href="/search/word?q=النار" class="btn btn-outline-success btn-sm">النار</a>
-                    <a href="/search/word?q=المؤمنين" class="btn btn-outline-success btn-sm">المؤمنين</a>
-                    <a href="/search/word?q=الكافرين" class="btn btn-outline-success btn-sm">الكافرين</a>
-                    <a href="/search/word?q=رسول" class="btn btn-outline-success btn-sm">رسول</a>
-                    <a href="/search/word?q=نبي" class="btn btn-outline-success btn-sm">نبي</a>
-                    <a href="/search/word?q=تقوى" class="btn btn-outline-success btn-sm">تقوى</a>
-                </div>
-            </div>
+            <div style="width: 38px; flex-shrink: 0;"></div> <!-- Spacer for perfect centering -->
         </div>
     </div>
+</div>
 
+<div class="container-fluid px-md-4">
     <% if (query) { %>
     <!-- Results Summary -->
     <div class="alert <%= totalResults > 0 ? 'alert-success' : 'alert-warning' %> d-flex align-items-center justify-content-between">
@@ -71,8 +47,8 @@
                 (No ayahs found containing this word)
             <% } %>
         </div>
-        <% if (totalResults > 0) { %>
         <div class="d-flex gap-2">
+            <% if (totalResults > 0) { %>
             <!-- Translation Selection Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -108,9 +84,16 @@
                     <% }) %>
                 </ul>
             </div>
+            <% } %>
         </div>
-        <% } %>
     </div>
+    <% } else { %>
+        <div class="text-center py-5">
+            <i class="bi bi-search display-1 text-muted opacity-25 mb-3"></i>
+            <h4 class="text-muted">Search for an Arabic word</h4>
+            <p class="text-muted">Type a word in the search bar above to see its occurrences.</p>
+        </div>
+    <% } %>
 
     <% if (totalResults > 0) { %>
     <!-- Results List -->
@@ -231,20 +214,22 @@
         </div>
     </div>
     <% } %>
-    <% } %>
 </div>
 
 <style>
     .arabic-highlight {
-        background-color: #ffc107;
-        padding: 0 4px;
-        border-radius: 4px;
-        color: #000;
+        background-color: #198754;
+        color: #ffffff !important;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(25, 135, 84, 0.4);
     }
     
-    .dark-mode .arabic-highlight {
-        background-color: #ff9800;
-        color: #000;
+    [data-bs-theme="dark"] .arabic-highlight {
+        background-color: #20c997;
+        color: #000000 !important;
+        box-shadow: 0 2px 8px rgba(32, 201, 151, 0.4);
     }
     
     .search-result-item:hover {

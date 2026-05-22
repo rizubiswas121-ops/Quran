@@ -52,7 +52,8 @@ router.get('/quran', async (_req: Request, res: Response) => {
       title: 'পবিত্র কুরআন',
       activePage: 'quran',
       surahs,
-      query: ''
+      query: '',
+      config: APP_CONFIG
     });
   } catch (error) {
     await renderWithLayout(res, 'error', {
@@ -73,7 +74,8 @@ router.get('/quran/search', async (req: Request, res: Response) => {
       title: query ? `অনুসন্ধান: ${query}` : 'পবিত্র কুরআন',
       activePage: 'quran',
       surahs: results,
-      query
+      query,
+      config: APP_CONFIG
     });
   } catch (error) {
     await renderWithLayout(res, 'error', {
@@ -97,7 +99,10 @@ router.get('/surah/:id', async (req: Request, res: Response) => {
       });
     }
 
-    const surah = await getSurahById(id);
+    const [surah, allSurahs] = await Promise.all([
+      getSurahById(id),
+      getAllSurahs()
+    ]);
     
     if (!surah) {
       return await renderWithLayout(res, 'error', {
@@ -111,6 +116,7 @@ router.get('/surah/:id', async (req: Request, res: Response) => {
       title: surah.transliteration,
       activePage: 'surah',
       surah,
+      allSurahs,
       config: APP_CONFIG
     });
   } catch (error) {
@@ -164,6 +170,26 @@ router.get('/search/word', async (req: Request, res: Response) => {
       title: 'Error',
       activePage: '',
       error: { title: 'Search Failed', message: 'Could not perform search. Please try again.' }
+    });
+  }
+});
+// Root Word Explorer page
+router.get('/root/:root', async (req: Request, res: Response) => {
+  try {
+    const root = decodeURIComponent(req.params.root);
+    
+    await renderWithLayout(res, 'root', {
+      title: `Root: ${root} - মূল ধাতু অনুসন্ধান`,
+      activePage: 'root',
+      root,
+      transliteration: ''
+    });
+  } catch (error) {
+    console.error('Root explorer error:', error);
+    await renderWithLayout(res, 'error', {
+      title: 'Error',
+      activePage: '',
+      error: { title: 'Root Explorer Failed', message: 'Could not load root explorer. Please try again.' }
     });
   }
 });

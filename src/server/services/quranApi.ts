@@ -381,6 +381,7 @@ export interface AyahSearchResult {
   surahName: string;
   surahTransliteration: string;
   surahBanglish: string;
+  surahType?: string;
   ayahNumber: number;
   arabicText: string;
   translations: Record<string, string>;
@@ -447,6 +448,61 @@ function highlightArabicWord(text: string, searchWord: string): string {
   
   const regex = new RegExp(`(${pattern})`, 'g');
   return text.replace(regex, '<mark class="arabic-highlight">$1</mark>');
+}
+
+// Search for root word across all surahs and return results with derivatives
+export async function searchByRootWord(rootWord: string): Promise<{ results: AyahSearchResult[]; derivatives: Record<string, number> }> {
+  const results: AyahSearchResult[] = [];
+  const derivatives: Record<string, number> = {};
+  const normalizedSearch = normalizeArabic(rootWord);
+
+  // Fetch all surahs (parallel fetch for performance)
+  const surahPromises = [];
+  for (let i = 1; i <= 114; i++) {
+    surahPromises.push(getSurahById(i));
+  }
+
+  const allSurahs = await Promise.all(surahPromises);
+
+  for (const surah of allSurahs) {
+    if (!surah || !surah.ayahs) continue;
+
+    for (const ayah of surah.ayahs) {
+      const normalizedAyahText = normalizeArabic(ayah.text);
+
+      if (normalizedAyahText.includes(normalizedSearch)) {
+        const highlightedText = highlightArabicWord(ayah.text, rootWord);
+
+        // Track derivative words - find actual matching words in the ayah
+        const words = ayah.text.split(/\s+/);
+        for (const word of words) {
+          const normalizedWord = normalizeArabic(word);
+          if (normalizedWord.includes(normalizedSearch)) {
+            derivatives[word] = (derivatives[word] || 0) + 1;
+          }
+        }
+
+        results.push({
+          surahId: surah.id,
+          surahName: surah.name,
+          surahTransliteration: surah.transliteration,
+          surahBanglish: surah.banglish || '',
+          surahType: surah.type,
+          ayahNumber: ayah.number,
+          arabicText: ayah.text,
+          translations: ayah.translations,
+          highlightedText
+        });
+      }
+    }
+  }
+
+  return { results, derivatives };
+}
+
+// Get surah metadata (for root explorer)
+export function getSurahMetadata() {
+  return SURAH_METADATA;
 }
 
 // Clear cache (useful for updates)

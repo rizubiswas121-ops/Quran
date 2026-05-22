@@ -1,0 +1,280 @@
+<!-- Settings Panel Overlay -->
+<div class="sp-overlay" id="settingsOverlay"></div>
+<aside class="settings-panel-v2" id="settingsPanelV2">
+  <div class="sp-header">
+    <h5><i class="bi bi-gear-fill me-2"></i>Settings</h5>
+    <button class="sp-close" id="settingsClose"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="sp-body">
+    <!-- Tab Navigation -->
+    <div class="sp-tabs">
+      <button class="sp-tab active" data-tab="general"><i class="bi bi-sliders"></i> General</button>
+      <button class="sp-tab" data-tab="appearance"><i class="bi bi-palette"></i> Appearance</button>
+      <button class="sp-tab" data-tab="audio"><i class="bi bi-volume-up"></i> Audio</button>
+    </div>
+
+    <!-- GENERAL TAB -->
+    <div class="sp-tab-content active" id="tab-general">
+      <div class="sp-section">
+        <label class="sp-label">Language</label>
+        <select class="form-select form-select-sm" id="settingsLang">
+          <option value="bn" selected>বাংলা (Bangla)</option>
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="zh">中文 (Chinese)</option>
+          <option value="tr">Türkçe (Turkish)</option>
+          <option value="ar">العربية (Arabic)</option>
+          <option value="fr">Français (French)</option>
+          <option value="id">Bahasa Indonesia</option>
+          <option value="ms">Bahasa Melayu</option>
+          <option value="de">Deutsch (German)</option>
+          <option value="ru">Русский (Russian)</option>
+          <option value="es">Español (Spanish)</option>
+          <option value="pt">Português (Portuguese)</option>
+          <option value="it">Italiano (Italian)</option>
+          <option value="ja">日本語 (Japanese)</option>
+          <option value="ko">한국어 (Korean)</option>
+          <option value="fa">فارسی (Persian)</option>
+          <option value="th">ไทย (Thai)</option>
+          <option value="nl">Nederlands (Dutch)</option>
+        </select>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-toggle-row">
+          <span>Show Arabic</span>
+          <input type="checkbox" id="showArabicToggle" checked>
+        </label>
+        <label class="sp-toggle-row">
+          <span>Show Translation</span>
+          <input type="checkbox" id="showTranslationToggle" checked>
+        </label>
+        <label class="sp-toggle-row">
+          <span>Word by Word</span>
+          <input type="checkbox" id="wbwToggle" checked>
+        </label>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Word by Word Language</label>
+        <div class="sp-subsection">
+          <small class="text-success fw-bold">Downloaded</small>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="en" checked> English</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="bn"> বাংলা (Bangla)</label>
+        </div>
+        <div class="sp-subsection">
+          <small class="text-muted fw-bold">Available</small>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="hi"> Hindi</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="ur"> Urdu</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="fr"> French</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="id"> Indonesian/Malay</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="de"> German</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="ru"> Russian</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="tr"> Turkish</label>
+          <label class="sp-radio-row"><input type="radio" name="wbwLang" value="ig"> Ingush</label>
+        </div>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Translation & Tafsir</label>
+        <div class="sp-trans-group">
+          <div class="sp-trans-lang-header" data-toggle="bangla-trans">
+            <span>বাংলা (Bangla)</span><i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="sp-trans-list" id="bangla-trans">
+            <small class="text-success fw-bold d-block mb-1">Downloaded</small>
+            <label class="sp-check-row"><input type="checkbox" data-tid="161" checked> Taisirul Quran</label>
+            <small class="text-muted fw-bold d-block mb-1 mt-2">Available</small>
+            <label class="sp-check-row"><input type="checkbox" data-tid="162"> Bayaan Foundation (Rawai Al-bayan)</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="213"> Dr. Abu Bakr Muhammad Zakaria</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="163"> Mujibur Rahman</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="maududi-bn"> মাওলানা মওদুদী</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="usmani-bn"> Mufti Taqi Usmani</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="ibnkathir-bn"> Tafsir Ibn Kathir <span class="badge bg-info">TAFSIR</span></label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="ahsanul-bn"> Tafsir Ahsanul Bayaan <span class="badge bg-info">TAFSIR</span></label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="fozlur-bn"> Fozlur Rahman</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="mokhtasar-bn"> Mokhtasar Bangla <span class="badge bg-info">TAFSIR</span></label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="muhiuddin-bn"> Muhiuddin Khan</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="fathul-bn"> Tafsir Fathul Mazid <span class="badge bg-info">TAFSIR</span></label>
+          </div>
+        </div>
+        <div class="sp-trans-group">
+          <div class="sp-trans-lang-header" data-toggle="english-trans">
+            <span>English</span><i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="sp-trans-list" id="english-trans">
+            <small class="text-success fw-bold d-block mb-1">Downloaded</small>
+            <label class="sp-check-row"><input type="checkbox" data-tid="20" checked> Saheeh International</label>
+            <small class="text-muted fw-bold d-block mb-1 mt-2">Available</small>
+            <label class="sp-check-row"><input type="checkbox" data-tid="22"> A. Yusuf Ali</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="19"> M. Pickthall</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="203"> Al-Hilali & Khan</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="85"> M.A.S. Abdel Haleem</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="84"> Mufti Taqi Usmani</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="95"> Maududi (Tafhim)</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="149"> Fadel Soliman (Bridges)</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="monotheist"> The Monotheist Group</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="shabbir"> Shabbir Ahmed</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="gerrans"> Sam Gerrans</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="reformist"> Reformist Translation</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="asad"> Muhammad Asad</label>
+          </div>
+        </div>
+        <div class="sp-trans-group">
+          <div class="sp-trans-lang-header" data-toggle="urdu-trans">
+            <span>اردو (Urdu)</span><i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="sp-trans-list collapsed" id="urdu-trans">
+            <label class="sp-check-row"><input type="checkbox" data-tid="97"> Tafheem (Maududi)</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="234"> Fatah M. Jalandhari</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="54"> M. Junagarhi</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="158"> Bayan-ul-Quran</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="156"> Fi Zilal al-Quran</label>
+          </div>
+        </div>
+        <div class="sp-trans-group">
+          <div class="sp-trans-lang-header" data-toggle="other-trans">
+            <span>Other Languages (15+)</span><i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="sp-trans-list collapsed" id="other-trans">
+            <label class="sp-check-row"><input type="checkbox" data-tid="122"> Hindi - Azizul Haque</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="77"> Turkish - Diyanet</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="52"> Turkish - Elmalili Yazir</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="56"> Chinese - Ma Jian</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="31"> French - Hamidullah</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="136"> French - Montada</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="33"> Indonesian - Ministry</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="39"> Malay - Basmeih</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="27"> German - Bubenheim</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="45"> Russian - Kuliev</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="140"> Spanish - Montada</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="103"> Portuguese - Helmi Nasr</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="153"> Italian - Piccardo</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="35"> Japanese - Ryoichi Mita</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="36"> Korean</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="29"> Persian - Taji Dari</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="230"> Thai</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="235"> Dutch - Abdalsalaam</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="25"> Bosnian - Mehanović</label>
+            <label class="sp-check-row"><input type="checkbox" data-tid="231"> Swahili</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPEARANCE TAB -->
+    <div class="sp-tab-content" id="tab-appearance">
+      <div class="sp-section">
+        <label class="sp-label">Mushaf</label>
+        <label class="sp-radio-row"><input type="radio" name="mushaf" value="unicode" checked> Mushaf Unicode <span class="badge bg-success">Default</span></label>
+        <label class="sp-radio-row"><input type="radio" name="mushaf" value="madina-classic"> Madina Classic <span class="badge bg-secondary">Download</span></label>
+        <label class="sp-radio-row"><input type="radio" name="mushaf" value="madina-1441"> Madina 1441 <span class="badge bg-secondary">Download</span></label>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Theme</label>
+        <div class="sp-theme-grid">
+          <button class="sp-theme-btn active" data-theme="green" style="background:#198754"></button>
+          <button class="sp-theme-btn" data-theme="blue" style="background:#0d6efd"></button>
+          <button class="sp-theme-btn" data-theme="purple" style="background:#6f42c1"></button>
+          <button class="sp-theme-btn" data-theme="teal" style="background:#20c997"></button>
+          <button class="sp-theme-btn" data-theme="amber" style="background:#fd7e14"></button>
+        </div>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-toggle-row">
+          <span>Tajweed</span>
+          <input type="checkbox" id="tajweedToggle">
+        </label>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Arabic Font</label>
+        <label class="sp-radio-row"><input type="radio" name="arabicFont" value="mequran" checked> Me-Quran</label>
+        <label class="sp-radio-row"><input type="radio" name="arabicFont" value="amir"> Amir</label>
+        <label class="sp-radio-row"><input type="radio" name="arabicFont" value="kfgqpc"> KFGQPC Hafs</label>
+        <label class="sp-radio-row"><input type="radio" name="arabicFont" value="noorehuda"> Indo Pack / Noorehuda <span class="badge bg-warning text-dark">Beta</span></label>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Arabic Font Size</label>
+        <input type="range" class="form-range" id="arabicFontSize" min="14" max="48" value="28" step="2">
+        <div class="d-flex justify-content-between"><small>Small</small><small id="arabicSizeVal">28px</small><small>Large</small></div>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Translation Font Size</label>
+        <input type="range" class="form-range" id="translationFontSize" min="12" max="28" value="16" step="1">
+        <div class="d-flex justify-content-between"><small>Small</small><small id="transSizeVal">16px</small><small>Large</small></div>
+      </div>
+    </div>
+
+    <!-- AUDIO TAB -->
+    <div class="sp-tab-content" id="tab-audio">
+      <div class="sp-section">
+        <label class="sp-label">Current Qari</label>
+        <div class="sp-current-qari">
+          <i class="bi bi-mic-fill text-success"></i>
+          <span id="currentQariName">Mahmoud Khalil Al-Husary</span>
+        </div>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Select Qari</label>
+        <select class="form-select form-select-sm" id="settingsQariSelect">
+          <optgroup label="Arabic Reciters">
+            <option value="Husary_128kbps" selected>Mahmoud Khalil Al-Husary</option>
+            <option value="Abdul_Basit_Murattal_192kbps">Abd Al-Basit (Murattal)</option>
+            <option value="Abdul_Basit_Mujawwad_128kbps">Abd Al-Basit (Mujawwad)</option>
+            <option value="Alafasy_128kbps">Mishary Al-Afasy</option>
+            <option value="Abdulmuneam_Abdul_Mubdi">Abdul Muhsin al-Qasim</option>
+            <option value="Abdul_Aziz_Az_Zahrani">Abdul Aziz Az-Zahrani</option>
+            <option value="Minshawy_Murattal_128kbps">Mohamed Siddiq El-Minshawi</option>
+            <option value="Ahmed_ibn_Ali_al_Ajamy_128kbps_ketaballah.net">Ahmed Al-Ajamy</option>
+            <option value="Muhammad_Ayyoub_128kbps">Muhammad Ayyoub</option>
+            <option value="Muhammad_Jibreel_128kbps">Muhammad Jibreel</option>
+            <option value="Maher_AlMuworrkly_128kbps">Maher Al-Muaiqly</option>
+            <option value="Saood_ash-Shuraym_128kbps">Saood Ash-Shuraym</option>
+            <option value="Abdurrahmaan_As-Sudais_192kbps">Abdur-Rahman As-Sudais</option>
+            <option value="Abu_Bakr_Ash-Shaatree_128kbps">Abu Bakr Ash-Shatri</option>
+            <option value="Hani_Rifai_192kbps">Hani Ar-Rifai</option>
+            <option value="Nasser_Alqatami_128kbps">Nasser Al-Qatami</option>
+            <option value="Yasser_Ad-Dussary_128kbps">Yasser Ad-Dossari</option>
+            <option value="khalefa_al_tunaiji_64kbps">Khalifa Al-Tunaiji</option>
+            <option value="Mohammad_al_Tablaway_128kbps">Mohamed Al-Tablawi</option>
+            <option value="Salaah_AbdulRahman_Bukhatir_128kbps">Salah Bukhatir</option>
+            <option value="Abdullah_Basfar_192kbps">Abdullah Basfar</option>
+            <option value="Fares_Abbad_64kbps">Fares Abbad</option>
+            <option value="Ali_Jaber_64kbps">Ali Jaber</option>
+          </optgroup>
+          <optgroup label="Muallim / Teaching">
+            <option value="Ayman_Sowaid_64kbps">Ayman Suwaid (Muallim)</option>
+            <option value="Husary_Muallim_128kbps">Al-Husary (Muallim)</option>
+          </optgroup>
+          <optgroup label="Translation Reciters">
+            <option value="translations/Bangla/Bayaan_Mujibur">Sharif Bayzid (Bangla)</option>
+            <option value="translations/urdu_shamshad_ali_khan_46kbps">Urdu - Shamshad Ali Khan</option>
+            <option value="English/Sahih_Intnl_Ibrahim_Walk_192kbps">English - Ibrahim Walk</option>
+            <option value="translations/Bosnian/Korkut_Besim">Bosnian Translation</option>
+            <option value="translations/Chinese/Chinese_Translation">Chinese Translation</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="sp-section">
+        <label class="sp-label">Custom Audio Directory</label>
+        <input type="text" class="form-control form-control-sm" id="customAudioDir" placeholder="https://your-server.com/audio/">
+        <small class="text-muted">Format: {surah}{ayah}.mp3</small>
+      </div>
+
+      <div class="sp-section">
+        <a href="#" class="qns-link" data-bs-toggle="modal" data-bs-target="#helpModal">
+          <i class="bi bi-question-circle-fill"></i>
+          <span>Help & Support</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -2,16 +2,219 @@
 <html lang="bn" dir="ltr">
 <head>
     <%- include('partials/head', { title: typeof title !== 'undefined' ? title : '' }) %>
+    <% if (typeof activePage !== 'undefined' && activePage === 'quran') { %>
+        <link rel="stylesheet" href="/quran-components.css">
+    <% } %>
 </head>
-<body>
-    <%- include('partials/navbar', { activePage: typeof activePage !== 'undefined' ? activePage : '' }) %>
+<body class="<%= (typeof activePage !== 'undefined' && ['surah', 'root', 'search'].includes(activePage)) ? 'page-' + activePage : '' %>">
+    <% if (typeof activePage !== 'undefined' && activePage === 'quran') { %>
+        <%- include('partials/quranHeader') %>
+        <%- include('partials/quranNav', { surahs: typeof surahs !== 'undefined' ? surahs : [] }) %>
+        <%- include('partials/quranSettings') %>
+    <% } else if (typeof activePage === 'undefined' || !['surah', 'root', 'search'].includes(activePage)) { %>
+        <%- include('partials/navbar', { activePage: typeof activePage !== 'undefined' ? activePage : '' }) %>
+    <% } %>
     
-    <main class="container py-4">
+    <main class="<%= (typeof activePage !== 'undefined' && ['surah', 'root', 'search'].includes(activePage)) ? 'container-fluid px-0' : 'container py-4' %>">
         <%- content %>
     </main>
     
-    <%- include('partials/footer') %>
+    <% if (typeof activePage === 'undefined' || !['surah', 'root', 'search', 'quran'].includes(activePage)) { %>
+        <%- include('partials/footer') %>
+    <% } %>
     
     <%- include('partials/scripts') %>
+
+    <% if (typeof activePage !== 'undefined' && activePage === 'quran') { %>
+    <script>
+    // ============================================
+    // QURAN PAGE COMPONENT SCRIPTS
+    // ============================================
+    
+    // --- Navigation Sidebar ---
+    const navToggle = document.getElementById('quranNavToggle');
+    const navSidebar = document.getElementById('quranNavSidebar');
+    const navOverlay = document.getElementById('quranNavOverlay');
+    const navClose = document.getElementById('quranNavClose');
+    
+    function openNav() { navSidebar.classList.add('open'); navOverlay.classList.add('active'); }
+    function closeNav() { navSidebar.classList.remove('open'); navOverlay.classList.remove('active'); }
+    navToggle.addEventListener('click', openNav);
+    navClose.addEventListener('click', closeNav);
+    navOverlay.addEventListener('click', closeNav);
+    
+    // --- Settings Panel ---
+    const settingsToggle = document.getElementById('quranSettingsToggle');
+    const settingsPanel = document.getElementById('settingsPanelV2');
+    const settingsOverlay = document.getElementById('settingsOverlay');
+    const settingsClose = document.getElementById('settingsClose');
+    const navSettingsLink = document.getElementById('navSettingsLink');
+    
+    function openSettings() { settingsPanel.classList.add('open'); settingsOverlay.classList.add('active'); closeNav(); }
+    function closeSettings() { settingsPanel.classList.remove('open'); settingsOverlay.classList.remove('active'); }
+    settingsToggle.addEventListener('click', openSettings);
+    settingsClose.addEventListener('click', closeSettings);
+    settingsOverlay.addEventListener('click', closeSettings);
+    if(navSettingsLink) navSettingsLink.addEventListener('click', (e) => { e.preventDefault(); openSettings(); });
+    
+    // --- Settings Tabs ---
+    document.querySelectorAll('.sp-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sp-tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+    
+    // --- Translation Group Toggles ---
+    document.querySelectorAll('.sp-trans-lang-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const list = document.getElementById(header.dataset.toggle);
+        if(list) list.classList.toggle('collapsed');
+        const icon = header.querySelector('i');
+        if(icon) icon.classList.toggle('bi-chevron-down');
+        if(icon) icon.classList.toggle('bi-chevron-up');
+      });
+    });
+    
+    // --- Search Toggle ---
+    const searchToggle = document.getElementById('quranSearchToggle');
+    const searchBar = document.getElementById('qhSearchBar');
+    const searchClose = document.getElementById('qhSearchClose');
+    searchToggle.addEventListener('click', () => {
+      searchBar.style.display = searchBar.style.display === 'none' ? 'block' : 'none';
+      if(searchBar.style.display === 'block') document.getElementById('qhSearchInput').focus();
+    });
+    searchClose.addEventListener('click', () => { searchBar.style.display = 'none'; });
+    
+    // --- Jump to Verse ---
+    const jumpSurah = document.getElementById('jumpSurahSelect');
+    const jumpAyah = document.getElementById('jumpAyahSelect');
+    const jumpGo = document.getElementById('jumpGoBtn');
+    const AYAH_COUNTS = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+    
+    jumpSurah.addEventListener('change', () => {
+      const sid = parseInt(jumpSurah.value);
+      jumpAyah.innerHTML = '<option value="">Ayah</option>';
+      if(sid >= 1 && sid <= 114) {
+        for(let i = 1; i <= AYAH_COUNTS[sid-1]; i++) {
+          jumpAyah.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+        jumpAyah.disabled = false;
+        jumpGo.disabled = false;
+      } else {
+        jumpAyah.disabled = true;
+        jumpGo.disabled = true;
+      }
+    });
+    
+    jumpGo.addEventListener('click', () => {
+      const sid = jumpSurah.value;
+      const aid = jumpAyah.value;
+      if(sid) {
+        let url = '/surah/' + sid;
+        if(aid) url += '#ayah-' + aid;
+        window.location.href = url;
+      }
+    });
+    
+    // --- Theme Selection ---
+    document.querySelectorAll('.sp-theme-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sp-theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        localStorage.setItem('quranTheme', btn.dataset.theme);
+      });
+    });
+    
+    // --- Font Size Sliders ---
+    const arabicSlider = document.getElementById('arabicFontSize');
+    const transSlider = document.getElementById('translationFontSize');
+    if(arabicSlider) {
+      arabicSlider.addEventListener('input', () => {
+        document.getElementById('arabicSizeVal').textContent = arabicSlider.value + 'px';
+        document.documentElement.style.setProperty('--arabic-text-size', arabicSlider.value + 'px');
+        localStorage.setItem('arabicFontSize', arabicSlider.value);
+      });
+      const saved = localStorage.getItem('arabicFontSize');
+      if(saved) { arabicSlider.value = saved; arabicSlider.dispatchEvent(new Event('input')); }
+    }
+    if(transSlider) {
+      transSlider.addEventListener('input', () => {
+        document.getElementById('transSizeVal').textContent = transSlider.value + 'px';
+        document.documentElement.style.setProperty('--translation-text-size', transSlider.value + 'px');
+        localStorage.setItem('translationFontSize', transSlider.value);
+      });
+      const saved = localStorage.getItem('translationFontSize');
+      if(saved) { transSlider.value = saved; transSlider.dispatchEvent(new Event('input')); }
+    }
+    
+    // --- Qari Selection ---
+    const qariSelect = document.getElementById('settingsQariSelect');
+    if(qariSelect) {
+      qariSelect.addEventListener('change', () => {
+        document.getElementById('currentQariName').textContent = qariSelect.options[qariSelect.selectedIndex].text;
+        localStorage.setItem('preferredReciter_arabic', qariSelect.value);
+      });
+      const saved = localStorage.getItem('preferredReciter_arabic');
+      if(saved && qariSelect.querySelector(`option[value="${saved}"]`)) {
+        qariSelect.value = saved;
+        document.getElementById('currentQariName').textContent = qariSelect.options[qariSelect.selectedIndex].text;
+      }
+    }
+    
+    // --- Daily Ayah ---
+    async function loadDailyAyah() {
+      try {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(),0,0)) / 86400000);
+        const surahId = (dayOfYear % 114) + 1;
+        const ayahNum = (dayOfYear % 7) + 1;
+        const res = await fetch(`https://api.quran.com/api/v4/verses/by_key/${surahId}:${ayahNum}?translations=161,20&fields=text_uthmani`);
+        const data = await res.json();
+        if(data.verse) {
+          document.getElementById('dailyArabic').textContent = data.verse.text_uthmani || '';
+          const t = data.verse.translations;
+          document.getElementById('dailyTranslation').innerHTML = t && t[0] ? t[0].text.replace(/<sup[^>]*>.*?<\/sup>/g,'') : '';
+          document.getElementById('dailyRef').textContent = `— Surah ${surahId}, Ayah ${ayahNum}`;
+        }
+      } catch(e) { console.error('Daily ayah error:', e); }
+    }
+    document.getElementById('dailyAyahModal').addEventListener('show.bs.modal', loadDailyAyah);
+    
+    // --- Topic Search ---
+    const topicInput = document.getElementById('topicSearchInput');
+    const topicTags = document.getElementById('topicTags');
+    if(topicInput) {
+      topicInput.addEventListener('input', () => {
+        const q = topicInput.value.toLowerCase().trim();
+        if(!q) { topicTags.style.display = 'flex'; return; }
+        document.querySelectorAll('.qns-tag').forEach(tag => {
+          tag.style.display = tag.dataset.topic.includes(q) ? '' : 'none';
+        });
+      });
+    }
+    document.querySelectorAll('.qns-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        window.location.href = '/quran/search?q=' + encodeURIComponent(tag.dataset.topic);
+      });
+    });
+    
+    // --- Feedback Submit ---
+    const feedbackBtn = document.getElementById('submitFeedback');
+    if(feedbackBtn) {
+      feedbackBtn.addEventListener('click', () => {
+        const type = document.getElementById('feedbackType').value;
+        const text = document.getElementById('feedbackText').value;
+        if(!text.trim()) { alert('Please enter your feedback.'); return; }
+        localStorage.setItem('lastFeedback', JSON.stringify({ type, text, date: new Date().toISOString() }));
+        alert('Thank you for your feedback! جزاك الله خيرا');
+        bootstrap.Modal.getInstance(document.getElementById('feedbackModal')).hide();
+        document.getElementById('feedbackText').value = '';
+      });
+    }
+    </script>
+    <% } %>
 </body>
 </html>
