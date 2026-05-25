@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  REGIONAL_ADMIN
+}
+
+enum SurahType {
+  Meccan
+  Medinan
+}
+
+enum RevelationPlace {
+  Meccan
+  Medinan
+}
+
+enum ProgressType {
+  READING
+  REVIEW
+}
+
+enum DictionaryKind {
+  LETTER
+  ROOT
+  WORD
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String?
+  emailVerified Boolean    @default(false)
+  name         String?
+  role         UserRole    @default(USER)
+  locale       String      @default("en")
+  regionId     String?
+  region       Region?     @relation(fields: [regionId], references: [id])
+  settings     Json?
+  bookmarks    Bookmark[]
+  progress     Progress[]
+  sessions     Session[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Region {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  name        String
+  description String?
+  settings    Json?
+  admins      User[]
+}
+
+model Surah {
+  id              Int        @id @default(autoincrement())
+  number          Int        @unique
+  nameAr          String
+  transliteration String
+  englishName     String
+  type            SurahType
+  revelationPlace RevelationPlace
+  ayahCount       Int
+  ayahs           Ayah[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+model Ayah {
+  id            Int                @id @default(autoincrement())
+  surahId       Int
+  number        Int
+  globalNumber  Int                @unique
+  verseKey      String             @unique
+  textUthmani   String
+  textSimple    String?
+  words         Word[]
+  translations  TranslationEntry[]
+  tafsirs       Tafsir[]
+  bookmarks     Bookmark[]
+  progress      Progress[]
+  surah         Surah              @relation(fields: [surahId], references: [id])
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@unique([surahId, number])
+}
+
+model Word {
+  id            Int      @id @default(autoincrement())
+  ayahId        Int
+  position      Int
+  textAr        String
+  transliteration String?
+  translation   String?
+  root          String?
+  morphology    Json?
+  ayah          Ayah     @relation(fields: [ayahId], references: [id])
+
+  @@index([root])
+  @@unique([ayahId, position])
+}
+
+model TranslationSource {
+  id          Int                @id @default(autoincrement())
+  sourceKey   String             @unique
+  name        String
+  language    String
+  license     String?
+  entries     TranslationEntry[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model TranslationEntry {
+  id        Int                @id @default(autoincrement())
+  ayahId    Int
+  sourceId  Int
+  text      String
+  ayah      Ayah               @relation(fields: [ayahId], references: [id])
+  source    TranslationSource  @relation(fields: [sourceId], references: [id])
+
+  @@unique([ayahId, sourceId])
+}
+
+model Tafsir {
+  id        Int      @id @default(autoincrement())
+  ayahId    Int
+  source    String
+  language  String
+  author    String?
+  text      String
+  ayah      Ayah     @relation(fields: [ayahId], references: [id])
+
+  @@index([source, language])
+}
+
+model Bookmark {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  ayahId     Int
+  label      String?
+  note       String?
+  category   String?
+  ayah       Ayah     @relation(fields: [ayahId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, ayahId])
+}
+
+model Progress {
+  id            Int          @id @default(autoincrement())
+  userId        String
+  surahId       Int
+  currentAyahId Int
+  type          ProgressType @default(READING)
+  meta          Json?
+  user          User         @relation(fields: [userId], references: [id])
+  surah         Surah        @relation(fields: [surahId], references: [id])
+  ayah          Ayah         @relation(fields: [currentAyahId], references: [id])
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([userId, surahId])
+}
+
+model DictionaryEntry {
+  id          Int            @id @default(autoincrement())
+  entry       String
+  kind        DictionaryKind
+  root        String?
+  meaning     String
+  examples    Json?
+  notes       String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  userId     String
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model BlogPost {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  summary     String
+  content     String
+  language    String
+  author      String
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
