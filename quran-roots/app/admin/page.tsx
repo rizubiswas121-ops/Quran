@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getUserFromSession, SESSION_COOKIE_NAME } from "@/lib/auth";
 import { RegionsManager } from "@/components/admin/regions-manager";
+import { UsersManager } from "@/components/admin/users-manager";
 import { SectionTitle } from "@/components/ui/section-title";
 import { Card } from "@/components/ui/card";
 
@@ -21,9 +22,27 @@ export default async function AdminPage() {
     redirect("/login");
   }
 
-  const regions = await prisma.region.findMany({
-    orderBy: { name: "asc" },
-  });
+  const [regions, users] = await Promise.all([
+    prisma.region.findMany({ orderBy: { name: "asc" } }),
+    prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        locale: true,
+        regionId: true,
+        region: { select: { name: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 200,
+    }),
+  ]);
+
+  const userList = users.map((user) => ({
+    ...user,
+    regionName: user.region?.name ?? null,
+  }));
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100 lg:px-12">
@@ -51,6 +70,11 @@ export default async function AdminPage() {
             </p>
           </Card>
 
+          <UsersManager
+            initialUsers={userList}
+            regions={regions}
+            role={user.role}
+          />
           <RegionsManager initialRegions={regions} role={user.role} />
         </section>
       </div>
