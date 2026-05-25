@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-root:
+    name: Test (root)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Install dependencies (root)
+        run: npm ci
+      - name: Run tests (root)
+        run: npm test
+        env:
+          CI: true
+
+  build-next:
+    name: Build Next app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Install root deps
+        run: npm ci
+      - name: Build quran-roots
+        run: |
+          cd quran-roots
+          npm ci
+          npm run build

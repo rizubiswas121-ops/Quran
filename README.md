@@ -24,8 +24,8 @@ A mobile-responsive Progressive Web App (PWA) for reading the Quran with offline
 
 ```bash
 # Clone the repository
-git clone https://github.com/mesadhan/qlean.git
-cd qlean
+git clone https://github.com/rizubiswas121-ops/Quran.git
+cd Quran
 
 # Install dependencies
 npm install
@@ -82,7 +82,7 @@ pm2 monit
 
 ## PWA Installation
 
-The app can be installed on mobile devices: 
+The app can be installed on mobile devices:
 
 1. Open the app in your mobile browser
 2. Look for the "Install" or "Add to Home Screen" prompt
@@ -134,4 +134,7 @@ MIT License
 ## Author
 
 Sadhan Sarker (@mesadhan)
+
+```
+
 ```
